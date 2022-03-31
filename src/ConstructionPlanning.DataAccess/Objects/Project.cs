@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ConstructionPlanning.DataLayer.Objects
+namespace ConstructionPlanning.DataAccess.Objects
 {
     /// <summary>
     /// Сущность "Проект".

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ConstructionPlanning.DataLayer.Objects;
+using ConstructionPlanning.DataAccess.Objects;
 
-namespace ConstructionPlanning.DataLayer.DbContext
+namespace ConstructionPlanning.DataAccess.DbContext
 {
     /// <summary>
     /// Контекст данных БД "ConstructionPlanningDb".

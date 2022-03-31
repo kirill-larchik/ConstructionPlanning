@@ -1,4 +1,4 @@
-﻿namespace ConstructionPlanning.DataLayer.Objects
+﻿namespace ConstructionPlanning.DataAccess.Objects
 {
     /// <summary>ю
     /// Сущность "Ресурс на объект".

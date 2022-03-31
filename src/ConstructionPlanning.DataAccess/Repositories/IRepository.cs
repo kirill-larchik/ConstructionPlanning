@@ -1,8 +1,8 @@
-﻿using ConstructionPlanning.DataLayer.Objects;
+﻿using ConstructionPlanning.DataAccess.Objects;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ConstructionPlanning.DataLayer.Repositories
+namespace ConstructionPlanning.DataAccess.Repositories
 {
     /// <summary>
     /// Содержит методы репозитория.
@@ -20,7 +20,7 @@ namespace ConstructionPlanning.DataLayer.Repositories
         /// <summary>
         /// Вовзращает объект, наследуемый от <see cref="IBaseObject"/>, по ИД.
         /// </summary>
-        Task<T> GetById(int id);
+        Task<T?> GetById(int id);
 
         /// <summary>
         /// Добавляет объект, наследуемый от <see cref="IBaseObject"/>, в БД.
@@ -36,5 +36,10 @@ namespace ConstructionPlanning.DataLayer.Repositories
         /// Удаляет существующий объект, наследуемый от <see cref="IBaseObject"/>, из БД.
         /// </summary>
         Task Delete(int id);
+
+        /// <summary>
+        /// Сохранение изменений.
+        /// </summary>
+        Task Save();
     }
 }

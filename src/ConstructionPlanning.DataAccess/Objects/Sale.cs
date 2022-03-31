@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConstructionPlanning.DataLayer.Objects
+namespace ConstructionPlanning.DataAccess.Objects
 {
     /// <summary>
     /// Сущность "Продажа".
