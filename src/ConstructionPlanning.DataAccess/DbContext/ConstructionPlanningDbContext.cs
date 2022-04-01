@@ -23,5 +23,12 @@ namespace ConstructionPlanning.DataAccess.DbContext
         public DbSet<ResourceType>? ResourceTypes { get; set; }
 
         public DbSet<Sale>? Sales { get; set; }
+
+        /// <inheritdoc />
+        public ConstructionPlanningDbContext(DbContextOptions<ConstructionPlanningDbContext> options)
+            : base(options)
+        {
+            Database.EnsureCreated();
+        }
     }
 }

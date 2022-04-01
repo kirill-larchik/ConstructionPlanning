@@ -1,7 +1,9 @@
 ﻿using ConstructionPlanning.DataAccess.DbContext;
 using ConstructionPlanning.DataAccess.Objects;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ConstructionPlanning.DataAccess.Repositories
@@ -34,15 +36,21 @@ namespace ConstructionPlanning.DataAccess.Repositories
         }
 
         /// <inheritdoc />
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll(params Expression<Func<T, object>>[] includes)
         {
-            return _context.Set<T>().AsNoTracking();
+            var dbSet = _context.Set<T>().AsNoTracking();
+            foreach (var include in includes)
+            {
+                dbSet = dbSet.Include(include);
+            }
+
+            return dbSet;
         }
 
         /// <inheritdoc />
-        public async Task<T?> GetById(int id)
+        public async Task<T?> GetById(int id, params Expression<Func<T, object>>[] includes)
         {
-            return await GetAll().FirstOrDefaultAsync(x => x.Id == id);
+            return await GetAll(includes).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         /// <inheritdoc />

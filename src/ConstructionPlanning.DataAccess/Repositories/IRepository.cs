@@ -1,5 +1,7 @@
 ﻿using ConstructionPlanning.DataAccess.Objects;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ConstructionPlanning.DataAccess.Repositories
@@ -15,12 +17,12 @@ namespace ConstructionPlanning.DataAccess.Repositories
         /// Возвращает список всех объектов, наследуемые от <see cref="IBaseObject"/>
         /// </summary>
         /// <returns></returns>
-        IQueryable<T> GetAll();
+        IQueryable<T> GetAll(params Expression<Func<T, object>>[] includes);
 
         /// <summary>
         /// Вовзращает объект, наследуемый от <see cref="IBaseObject"/>, по ИД.
         /// </summary>
-        Task<T?> GetById(int id);
+        Task<T?> GetById(int id, params Expression<Func<T, object>>[] includes);
 
         /// <summary>
         /// Добавляет объект, наследуемый от <see cref="IBaseObject"/>, в БД.
