@@ -22,7 +22,7 @@ namespace ConstructionPlanning.DataAccess.Repositories
         /// <summary>
         /// Вовзращает объект, наследуемый от <see cref="IBaseObject"/>, по ИД.
         /// </summary>
-        Task<T?> GetById(int id, params Expression<Func<T, object>>[] includes);
+        Task<T> GetById(int id, params Expression<Func<T, object>>[] includes);
 
         /// <summary>
         /// Добавляет объект, наследуемый от <see cref="IBaseObject"/>, в БД.

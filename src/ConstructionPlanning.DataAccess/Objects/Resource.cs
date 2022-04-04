@@ -40,7 +40,7 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// Если значение 'true', то ресурс отображается на странице пользователя.
         /// Если знчение 'false' - не отображается на странице пользователя.
         /// </summary>
-        public bool IsVisivle { get; set; }
+        public bool IsVisible { get; set; }
 
         /// <summary>
         /// Список всех продаж по данному ресурсу.

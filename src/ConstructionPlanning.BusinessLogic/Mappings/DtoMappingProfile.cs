@@ -5,7 +5,7 @@ using ConstructionPlanning.DataAccess.Objects;
 namespace ConstructionPlanning.BusinessLogic.Mappings
 {
     /// <summary>
-    /// Произвожит маппинг объектов и объектов передачи данных (дто).
+    /// Производит маппинг объектов и объектов передачи данных (дто).
     /// </summary>
     public class DtoMappingProfile : Profile
     {

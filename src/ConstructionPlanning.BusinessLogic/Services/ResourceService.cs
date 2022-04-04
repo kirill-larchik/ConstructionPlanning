@@ -3,6 +3,7 @@ using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.DataAccess.Objects;
 using ConstructionPlanning.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConstructionPlanning.BusinessLogic.Services
 {
@@ -35,7 +36,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task DeleteResourceById(int id)
         {
-            await ResourceIsExists(id);
+            await IsResourceExists(id);
             await _resourceRepository.Delete(id);
             await _resourceRepository.Save();
         }
@@ -53,6 +54,18 @@ namespace ConstructionPlanning.BusinessLogic.Services
         }
 
         /// <inheritdoc />
+        public async Task<IEnumerable<ResourceDto>> GetAllResourcesByPageAndPageSize(int page, int pageSize)
+        {
+            var resources = _resourceRepository.GetAll(x => x.Sales,
+                x => x.Deliveries,
+                x => x.Type,
+                x => x.ResourcesPerObject);
+            var items = await resources.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            return _mapper.Map<IEnumerable<ResourceDto>>(items);
+        }
+
+        /// <inheritdoc />
         public async Task<ResourceDto> GetResource(Func<ResourceDto, bool> predicate)
         {
             return (await GetAllResources()).FirstOrDefault(predicate);
@@ -61,20 +74,28 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<ResourceDto> GetResourceById(int id)
         {
-            var resource = await _resourceRepository.GetById(id);
+            await IsResourceExists(id);
+            var resource = await GetResource(x => x.Id == id);
             return _mapper.Map<ResourceDto>(resource);
         }
 
         /// <inheritdoc />
         public async Task UpdateResource(ResourceDto resourceDto)
         {
-            await Validate(resourceDto);
+            await IsResourceExists(resourceDto.Id);
+            await Validate(resourceDto, true);
             var resource = _mapper.Map<Resource>(resourceDto);
             await _resourceRepository.Update(resource);
             await _resourceRepository.Save();
         }
 
-        private async Task Validate(ResourceDto resource)
+        /// <inheritdoc />
+        public async Task<int> GetTotalCount()
+        {
+            return await _resourceRepository.GetAll().CountAsync();
+        }
+
+        private async Task Validate(ResourceDto resource, bool isUpdate = false)
         {
             if (await _typeRepository.GetById(resource.TypeId) == null)
             {
@@ -86,18 +107,31 @@ namespace ConstructionPlanning.BusinessLogic.Services
                 throw new ArgumentException("Название ресурса не может быть пустым.");
             }
 
-            if (resource.UnitCost <= 0)
-            {
-                throw new ArgumentException("Цена зе еденицу ресурса должна быть больше нуля.");
-            }
+            await ValidateNameUnique(resource, isUpdate);
 
             if (resource.AvaliableAmount <= 0)
             {
                 throw new ArgumentException("Доступное количество ресурсов на складе не может быть меньше или равно нулю.");
             }
+
+            if (resource.UnitCost <= 0)
+            {
+                throw new ArgumentException("Цена зе еденицу ресурса должна быть больше нуля.");
+            }
         }
 
-        private async Task ResourceIsExists(int id)
+        private async Task ValidateNameUnique(ResourceDto resource, bool isUpdate)
+        {
+            var resources = _resourceRepository.GetAll();
+            var resourceName = (await _resourceRepository.GetById(resource.Id)).Name;
+            if ((!isUpdate && resources.Any(x => x.Name == resource.Name)) ||
+                (isUpdate && resources.Where(x => x.Name != resourceName).Any(x => x.Name == resource.Name)))
+            {
+                throw new ArgumentException("Ресурс с таким названием уже существует.");
+            }
+        }
+
+        private async Task IsResourceExists(int id)
         {
             var resourceById = await _resourceRepository.GetById(id);
             if (resourceById == null)

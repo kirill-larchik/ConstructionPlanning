@@ -1,5 +1,12 @@
+using ConstructionPlanning.BusinessLogic.Mappings;
+using ConstructionPlanning.BusinessLogic.Services;
+using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.DataAccess.DbContext;
+using ConstructionPlanning.DataAccess.Objects;
+using ConstructionPlanning.DataAccess.Repositories;
 using ConstructionPlanning.WebApplication.Data;
+using ConstructionPlanning.WebApplication.Filters;
+using ConstructionPlanning.WebApplication.Mappings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +38,15 @@ namespace ConstructionPlanning.WebApplication
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+
+            services.AddAutoMapper(typeof(DtoMappingProfile), typeof(ViewModelMappingProfile));
+
+            services.AddTransient<IRepository<Resource>, ResourceRepository>();
+            services.AddTransient<IRepository<ResourceType>, ResourceTypeRepository>();
+            services.AddTransient<IResourceTypeService, ResourceTypeService>();
+            services.AddTransient<IResourceService, ResourceService>();
+
+            services.AddControllersWithViews(config => config.Filters.Add(typeof(CustomExceptionFilter)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

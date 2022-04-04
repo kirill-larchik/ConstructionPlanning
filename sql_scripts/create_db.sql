@@ -49,9 +49,9 @@ CREATE TABLE [Resources] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [Name] nvarchar(255) UNIQUE NOT NULL,
   [TypeId] int,
-  [AvailableAmount] int NOT NULL DEFAULT (0),
+  [AvaliableAmount] int NOT NULL DEFAULT (0),
   [UnitCost] int NOT NULL,
-  [IsVsible] bit
+  [IsVisible] bit
 )
 GO
 
@@ -78,7 +78,7 @@ CREATE TABLE [Providers] (
   [name] nvarchar(255) NOT NULL,
   [address] nvarchar(255) NOT NULL,
   [phone] nvarchar(255) NOT NULL,
-  [IsVsible] bit
+  [IsVisible] bit
 )
 GO
 

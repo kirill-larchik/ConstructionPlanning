@@ -1,5 +1,4 @@
 ﻿using ConstructionPlanning.BusinessLogic.DTO;
-using System.Linq.Expressions;
 
 namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
 {
@@ -12,6 +11,17 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// Вовзращает все ресурсы.
         /// </summary>
         Task<IEnumerable<ResourceDto>> GetAllResources();
+
+        /// <summary>
+        /// Возвращает все ресурсы с применением пагинации.
+        /// </summary>
+        Task<IEnumerable<ResourceDto>> GetAllResourcesByPageAndPageSize(int page, int pageSize);
+
+        /// <summary>
+        /// Возвращает общее количество всех ресурсов.
+        /// </summary>
+        /// <returns></returns>
+        Task<int> GetTotalCount();
 
         /// <summary>
         /// Вовзращает ресурс по заданному условию.
