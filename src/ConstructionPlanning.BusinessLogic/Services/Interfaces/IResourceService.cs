@@ -20,7 +20,6 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// <summary>
         /// Возвращает общее количество всех ресурсов.
         /// </summary>
-        /// <returns></returns>
         Task<int> GetTotalCount();
 
         /// <summary>

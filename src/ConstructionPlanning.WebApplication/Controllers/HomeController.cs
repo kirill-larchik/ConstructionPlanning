@@ -8,10 +8,5 @@ namespace ConstructionPlanning.WebApplication.Controllers
         {
             return View();
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
     }
 }

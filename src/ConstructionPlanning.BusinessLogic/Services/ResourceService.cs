@@ -108,7 +108,6 @@ namespace ConstructionPlanning.BusinessLogic.Services
             }
 
             await ValidateNameUnique(resource, isUpdate);
-
             if (resource.AvaliableAmount <= 0)
             {
                 throw new ArgumentException("Доступное количество ресурсов на складе не может быть меньше или равно нулю.");
@@ -120,12 +119,12 @@ namespace ConstructionPlanning.BusinessLogic.Services
             }
         }
 
-        private async Task ValidateNameUnique(ResourceDto resource, bool isUpdate)
+        private async Task ValidateNameUnique(ResourceDto resourceDto, bool isUpdate)
         {
             var resources = _resourceRepository.GetAll();
-            var resourceName = (await _resourceRepository.GetById(resource.Id)).Name;
-            if ((!isUpdate && resources.Any(x => x.Name == resource.Name)) ||
-                (isUpdate && resources.Where(x => x.Name != resourceName).Any(x => x.Name == resource.Name)))
+            var resourceName = (await _resourceRepository.GetById(resourceDto.Id)).Name;
+            if ((!isUpdate && resources.Any(x => x.Name == resourceDto.Name)) ||
+                (isUpdate && resources.Where(x => x.Name != resourceName).Any(x => x.Name == resourceDto.Name)))
             {
                 throw new ArgumentException("Ресурс с таким названием уже существует.");
             }

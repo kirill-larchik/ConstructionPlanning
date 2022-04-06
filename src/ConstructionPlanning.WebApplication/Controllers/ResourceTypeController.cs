@@ -2,25 +2,21 @@
 using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.WebApplication.Models;
-using ConstructionPlanning.WebApplication.Models.Resource;
 using ConstructionPlanning.WebApplication.Models.ResourceType;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ConstructionPlanning.WebApplication.Controllers
 {
-    public class ResourceController : Controller
+    public class ResourceTypeController : Controller
     {
-        private readonly IResourceService _resourceService;
         private readonly IResourceTypeService _resourceTypeService;
         private readonly IMapper _mapper;
 
-        public ResourceController(IResourceService resourceService, IResourceTypeService resourceTypeService, IMapper mapper)
+        public ResourceTypeController(IResourceTypeService resourceTypeService, IMapper mapper)
         {
-            _resourceService = resourceService;
             _resourceTypeService = resourceTypeService;
             _mapper = mapper;
         }
@@ -29,12 +25,12 @@ namespace ConstructionPlanning.WebApplication.Controllers
         {
             const int pageSize = 5;
 
-            var resources = await _resourceService.GetAllResourcesByPageAndPageSize(page, pageSize);
-            var pageViewModel = new PageViewModel(await _resourceService.GetTotalCount(), page, pageSize);
-            var indexViewModel = new ResourceIndexViewModel
+            var resourceTypes = await _resourceTypeService.GetAllResourcesByPageAndPageSize(page, pageSize);
+            var pageViewModel = new PageViewModel(await _resourceTypeService.GetTotalCount(), page, pageSize);
+            var indexViewModel = new ResourceTypeIndexViewModel
             {
                 PageViewModel = pageViewModel,
-                Resources = _mapper.Map<IEnumerable<ResourceViewModel>>(resources),
+                ResourceTypes = _mapper.Map<IEnumerable<ResourceTypeViewModel>>(resourceTypes),
             };
 
             return View(indexViewModel);
@@ -42,26 +38,25 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Details(int id)
         {
-            var model = _mapper.Map<ResourceViewModel>(await _resourceService.GetResourceById(id));
+            var model = _mapper.Map<ResourceTypeViewModel>(await _resourceTypeService.GetResourceTypeById(id));
             return View(model);
         }
 
         public async Task<ActionResult> Create()
         {
-            await InitResourceTypeSelectList();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ResourceCreateViewModel model)
+        public async Task<ActionResult> Create(ResourceTypeCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var resourceDto = _mapper.Map<ResourceDto>(model);
-                    await _resourceService.AddResource(resourceDto);
+                    var resourceTypeDto = _mapper.Map<ResourceTypeDto>(model);
+                    await _resourceTypeService.AddResourceType(resourceTypeDto);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -70,27 +65,25 @@ namespace ConstructionPlanning.WebApplication.Controllers
                 }
             }
 
-            await InitResourceTypeSelectList();
             return View(model);
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            var model = _mapper.Map<ResourceEditViewModel>(await _resourceService.GetResourceById(id));
-            await InitResourceTypeSelectList();
+            var model = _mapper.Map<ResourceTypeEditViewModel>(await _resourceTypeService.GetResourceTypeById(id));
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ResourceEditViewModel model)
+        public async Task<ActionResult> Edit(ResourceTypeEditViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var resourceDto = _mapper.Map<ResourceDto>(model);
-                    await _resourceService.UpdateResource(resourceDto);
+                    var resourceTypeDto = _mapper.Map<ResourceTypeDto>(model);
+                    await _resourceTypeService.UpdateResourceType(resourceTypeDto);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -99,28 +92,21 @@ namespace ConstructionPlanning.WebApplication.Controllers
                 }
             }
 
-            await InitResourceTypeSelectList();
             return View(model);
         }
 
         public async Task<ActionResult> Delete(int id)
         {
-            var resource = _mapper.Map<ResourceViewModel>(await _resourceService.GetResourceById(id));
-            return View(resource);
+            var resourceType = _mapper.Map<ResourceTypeViewModel>(await _resourceTypeService.GetResourceTypeById(id));
+            return View(resourceType);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, ResourceViewModel model)
+        public async Task<ActionResult> Delete(int id, ResourceTypeViewModel model)
         {
-            await _resourceService.DeleteResourceById(id);
+            await _resourceTypeService.DeleteResourceTypeById(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private async Task InitResourceTypeSelectList()
-        {
-            var resourceTypes = _mapper.Map<IEnumerable<ResourceTypeSelectListModel>>(await _resourceTypeService.GetAllResourceTypes());
-            ViewBag.ResourceTypes = new SelectList(resourceTypes, nameof(ResourceTypeSelectListModel.Id), nameof(ResourceTypeSelectListModel.Name));
         }
     }
 }

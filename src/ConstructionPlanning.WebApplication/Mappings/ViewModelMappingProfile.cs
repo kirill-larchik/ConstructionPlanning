@@ -18,6 +18,10 @@ namespace ConstructionPlanning.WebApplication.Mappings
             CreateMap<ResourceCreateViewModel, ResourceDto>().ReverseMap();
             CreateMap<ResourceEditViewModel, ResourceDto>().ReverseMap();
             CreateMap<ResourceTypeSelectListModel, ResourceTypeDto>().ReverseMap();
+
+            CreateMap<ResourceTypeDto, ResourceTypeViewModel>().ReverseMap();
+            CreateMap<ResourceTypeCreateViewModel, ResourceTypeDto>().ReverseMap();
+            CreateMap<ResourceTypeEditViewModel, ResourceTypeDto>().ReverseMap();
         }
     }
 }
