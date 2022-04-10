@@ -4,6 +4,7 @@ using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.DataAccess.Objects;
 using ConstructionPlanning.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace ConstructionPlanning.BusinessLogic.Services
 {
@@ -95,12 +96,13 @@ namespace ConstructionPlanning.BusinessLogic.Services
             await ValidateNameUnique(providerDto, isUpdate);
             if (string.IsNullOrEmpty(providerDto.Address))
             {
-                throw new ArgumentException("Адрес поставшика не может быть пустым.");
+                throw new ArgumentException("Адрес поставщика не может быть пустым.");
             }
 
-            if (string.IsNullOrEmpty(providerDto.Phone)) // TODO: Add regex?
+            var regex = new Regex("^\\s*\\+?\\s*([0-9][\\s-]*){9,}$");
+            if (string.IsNullOrEmpty(providerDto.Phone) && regex.IsMatch(providerDto.Phone))
             {
-                throw new ArgumentException("Телефон поставшика не может быть пустым.");
+                throw new ArgumentException("Неверный телефон поставщика.");
             }
         }
 

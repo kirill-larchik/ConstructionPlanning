@@ -18,6 +18,7 @@ namespace ConstructionPlanning.WebApplication.Models.Provider
         [TranslatedRequared]
         [Display(Name = "Телефон")]
         [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^\\s*\\+?\\s*([0-9][\\s-]*){9,}$", ErrorMessage = "Неверный телефон поставщика.")]
         public string Phone { get; set; }
     }
 }
