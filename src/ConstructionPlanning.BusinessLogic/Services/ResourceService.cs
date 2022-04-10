@@ -12,16 +12,19 @@ namespace ConstructionPlanning.BusinessLogic.Services
     {
         private readonly IRepository<Resource> _resourceRepository;
         private readonly IRepository<ResourceType> _typeRepository;
+        private readonly IPaginationService<Resource, ResourceDto> _paginationService;
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
         public ResourceService(IRepository<Resource> resourceRepository,
             IRepository<ResourceType> typeRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IPaginationService<Resource, ResourceDto> paginationService)
         {
             _resourceRepository = resourceRepository;
             _typeRepository = typeRepository;
             _mapper = mapper;
+            _paginationService = paginationService;
         }
 
         /// <inheritdoc />
@@ -54,15 +57,15 @@ namespace ConstructionPlanning.BusinessLogic.Services
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ResourceDto>> GetAllResourcesByPageAndPageSize(int page, int pageSize)
+        public async Task<IEnumerable<ResourceDto>> GetAllResourcesByPagination(int page, int pageSize)
         {
-            var resources = _resourceRepository.GetAll(x => x.Sales,
-                x => x.Deliveries,
-                x => x.Type,
-                x => x.ResourcesPerObject);
-            var items = await resources.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await _paginationService.GetItems(page, pageSize, null, x => x.Type);
+        }
 
-            return _mapper.Map<IEnumerable<ResourceDto>>(items);
+        /// <inheritdoc />
+        public async Task<IEnumerable<ResourceDto>> GetAllResourcesByResourceTypeIdWithPagination(int resourceTypeId, int page, int pageSize)
+        {
+            return await _paginationService.GetItems(page, pageSize, x => x.TypeId == resourceTypeId, x => x.Type);
         }
 
         /// <inheritdoc />
@@ -91,8 +94,14 @@ namespace ConstructionPlanning.BusinessLogic.Services
 
         /// <inheritdoc />
         public async Task<int> GetTotalCount()
-        {
+        { 
             return await _resourceRepository.GetAll().CountAsync();
+        }
+
+        /// <inheritdoc />
+        public async Task<int> GetTotalCountByResourceTypeId(int resourceTypeId)
+        {
+            return await _resourceRepository.GetAll().Where(x => x.TypeId == resourceTypeId).CountAsync();
         }
 
         private async Task Validate(ResourceDto resource, bool isUpdate = false)
@@ -122,7 +131,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         private async Task ValidateNameUnique(ResourceDto resourceDto, bool isUpdate)
         {
             var resources = _resourceRepository.GetAll();
-            var resourceName = (await _resourceRepository.GetById(resourceDto.Id)).Name;
+            var resourceName = isUpdate ? (await _resourceRepository.GetById(resourceDto.Id)).Name : string.Empty;
             if ((!isUpdate && resources.Any(x => x.Name == resourceDto.Name)) ||
                 (isUpdate && resources.Where(x => x.Name != resourceName).Any(x => x.Name == resourceDto.Name)))
             {

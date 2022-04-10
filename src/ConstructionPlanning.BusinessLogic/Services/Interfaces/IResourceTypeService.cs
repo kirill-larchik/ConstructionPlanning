@@ -15,7 +15,7 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// <summary>
         /// Возвращает все ресурсы с применением пагинации.
         /// </summary>
-        Task<IEnumerable<ResourceTypeDto>> GetAllResourcesByPageAndPageSize(int page, int pageSize);
+        Task<IEnumerable<ResourceTypeDto>> GetAllResourceTypesByPagination(int page, int pageSize);
 
         /// <summary>
         /// Вовзращает тип ресурса по заданному условию.

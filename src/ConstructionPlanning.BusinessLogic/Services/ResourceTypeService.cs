@@ -13,12 +13,16 @@ namespace ConstructionPlanning.BusinessLogic.Services
     {
         private readonly IRepository<ResourceType> _resourceTypeRepository;
         private readonly IMapper _mapper;
+        private readonly IPaginationService<ResourceType, ResourceTypeDto> _paginationService;
 
         /// <inheritdoc />
-        public ResourceTypeService(IRepository<ResourceType> resourceTypeRepository, IMapper mapper)
+        public ResourceTypeService(IRepository<ResourceType> resourceTypeRepository,
+            IMapper mapper,
+            IPaginationService<ResourceType, ResourceTypeDto> paginationService)
         {
             _resourceTypeRepository = resourceTypeRepository;
             _mapper = mapper;
+            _paginationService = paginationService;
         }
 
         /// <inheritdoc />
@@ -33,7 +37,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task DeleteResourceTypeById(int id)
         {
-            await ResourceTypeIsExists(id);
+            await IsResourceTypeExists(id);
             await _resourceTypeRepository.Delete(id);
             await _resourceTypeRepository.Save();
         }
@@ -46,12 +50,9 @@ namespace ConstructionPlanning.BusinessLogic.Services
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ResourceTypeDto>> GetAllResourcesByPageAndPageSize(int page, int pageSize)
+        public async Task<IEnumerable<ResourceTypeDto>> GetAllResourceTypesByPagination(int page, int pageSize)
         {
-            var resourceTypes = _resourceTypeRepository.GetAll(x => x.Resources);
-            var items = await resourceTypes.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-
-            return _mapper.Map<IEnumerable<ResourceTypeDto>>(items);
+            return await _paginationService.GetItems(page, pageSize, null);
         }
 
         /// <inheritdoc />
@@ -69,6 +70,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<ResourceTypeDto> GetResourceTypeById(int id)
         {
+            await IsResourceTypeExists(id);
             var resourceType = await _resourceTypeRepository.GetById(id);
             return _mapper.Map<ResourceTypeDto>(resourceType);
         }
@@ -76,6 +78,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task UpdateResourceType(ResourceTypeDto resourceTypeDto)
         {
+            await IsResourceTypeExists(resourceTypeDto.Id);
             await Validate(resourceTypeDto, true);
             var resourceType = _mapper.Map<ResourceType>(resourceTypeDto);
             await _resourceTypeRepository.Update(resourceType);
@@ -99,7 +102,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         private async Task ValidateNameUnique(ResourceTypeDto resourceTypeDto, bool isUpdate)
         {
             var resourceTypes = _resourceTypeRepository.GetAll();
-            var resourceTypeName = (await _resourceTypeRepository.GetById(resourceTypeDto.Id)).Name;
+            var resourceTypeName = isUpdate ? (await _resourceTypeRepository.GetById(resourceTypeDto.Id)).Name : string.Empty;
             if ((!isUpdate && resourceTypes.Any(x => x.Name == resourceTypeDto.Name)) ||
                 (isUpdate && resourceTypes.Where(x => x.Name != resourceTypeName).Any(x => x.Name == resourceTypeDto.Name)))
             {
@@ -107,7 +110,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             }
         }
 
-        private async Task ResourceTypeIsExists(int id)
+        private async Task IsResourceTypeExists(int id)
         {
             var resourceTypeById = await _resourceTypeRepository.GetById(id);
             if (resourceTypeById == null)

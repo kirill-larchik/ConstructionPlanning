@@ -25,7 +25,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
         {
             const int pageSize = 5;
 
-            var resourceTypes = await _resourceTypeService.GetAllResourcesByPageAndPageSize(page, pageSize);
+            var resourceTypes = await _resourceTypeService.GetAllResourceTypesByPagination(page, pageSize);
             var pageViewModel = new PageViewModel(await _resourceTypeService.GetTotalCount(), page, pageSize);
             var indexViewModel = new ResourceTypeIndexViewModel
             {

@@ -14,6 +14,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
 {
     public class ResourceController : Controller
     {
+        const int pageSize = 5;
+
         private readonly IResourceService _resourceService;
         private readonly IResourceTypeService _resourceTypeService;
         private readonly IMapper _mapper;
@@ -27,9 +29,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Index(int page = 1)
         {
-            const int pageSize = 5;
-
-            var resources = await _resourceService.GetAllResourcesByPageAndPageSize(page, pageSize);
+            var resources = await _resourceService.GetAllResourcesByPagination(page, pageSize);
             var pageViewModel = new PageViewModel(await _resourceService.GetTotalCount(), page, pageSize);
             var indexViewModel = new ResourceIndexViewModel
             {
@@ -44,6 +44,28 @@ namespace ConstructionPlanning.WebApplication.Controllers
         {
             var model = _mapper.Map<ResourceViewModel>(await _resourceService.GetResourceById(id));
             return View(model);
+        }
+
+        public async Task<IActionResult> GetResourcesByResourceTypeId(int? resourceTypeId, int page = 1)
+        {
+            if (!resourceTypeId.HasValue)
+            {
+                return NotFound();
+            }
+
+            var resourceType = await _resourceTypeService.GetResourceTypeById(resourceTypeId.Value);
+            var resources = await _resourceService.GetAllResourcesByResourceTypeIdWithPagination(resourceTypeId.Value, page, pageSize);
+            var pageViewModel = new PageViewModel(await _resourceService.GetTotalCountByResourceTypeId(resourceTypeId.Value), page, pageSize);
+            var indexViewModel = new ResourceByTypeViewModel
+            {
+                ResourceTypeId = resourceType.Id,
+                ResourceTypeName = resourceType.Name,
+                PageViewModel = pageViewModel,
+                Resources = _mapper.Map<IEnumerable<ResourceViewModel>>(resources),
+            };
+
+            const string viewName = "ResourcesByType";
+            return View(viewName, indexViewModel);
         }
 
         public async Task<ActionResult> Create()

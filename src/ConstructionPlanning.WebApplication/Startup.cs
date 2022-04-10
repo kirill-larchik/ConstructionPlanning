@@ -1,6 +1,8 @@
+using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Mappings;
 using ConstructionPlanning.BusinessLogic.Services;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
+using ConstructionPlanning.BusinessLogic.Services.Pagination;
 using ConstructionPlanning.DataAccess.DbContext;
 using ConstructionPlanning.DataAccess.Objects;
 using ConstructionPlanning.DataAccess.Repositories;
@@ -43,6 +45,10 @@ namespace ConstructionPlanning.WebApplication
 
             services.AddTransient<IRepository<Resource>, ResourceRepository>();
             services.AddTransient<IRepository<ResourceType>, ResourceTypeRepository>();
+
+            services.AddTransient<IPaginationService<Resource, ResourceDto>, ResourcePaginationService>();
+            services.AddTransient<IPaginationService<ResourceType, ResourceTypeDto>, ResourceTypePaginationService>();
+
             services.AddTransient<IResourceTypeService, ResourceTypeService>();
             services.AddTransient<IResourceService, ResourceService>();
 
