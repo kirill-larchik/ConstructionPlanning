@@ -26,13 +26,6 @@ namespace ConstructionPlanning.DataAccess.Objects
         public string? Phone { get; set; }
 
         /// <summary>
-        /// Отображает статус отображения ресурса.
-        /// Если значение 'true', то ресурс отображается на странице пользователя.
-        /// Если знчение 'false' - не отображается на странице пользователя.
-        /// </summary>
-        public bool IsVisivle { get; set; }
-
-        /// <summary>
         /// Поставки поставщика.
         /// </summary>
         public IEnumerable<Delivery>? Deliveries { get; set; }

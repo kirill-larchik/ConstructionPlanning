@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ConstructionPlanning.BusinessLogic.Services
 {
-    //TODO
     /// <inheritdoc />
     public class ResourceTypeService : IResourceTypeService
     {

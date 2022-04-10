@@ -141,8 +141,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         private async Task InitResourceTypeSelectList()
         {
-            var resourceTypes = _mapper.Map<IEnumerable<ResourceTypeSelectListModel>>(await _resourceTypeService.GetAllResourceTypes());
-            ViewBag.ResourceTypes = new SelectList(resourceTypes, nameof(ResourceTypeSelectListModel.Id), nameof(ResourceTypeSelectListModel.Name));
+            var resourceTypes = _mapper.Map<IEnumerable<SelectListModel>>(await _resourceTypeService.GetAllResourceTypes());
+            ViewBag.ResourceTypes = new SelectList(resourceTypes, nameof(SelectListModel.Id), nameof(SelectListModel.Name));
         }
     }
 }

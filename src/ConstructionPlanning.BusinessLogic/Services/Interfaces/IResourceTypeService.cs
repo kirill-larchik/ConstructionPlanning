@@ -18,7 +18,7 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         Task<IEnumerable<ResourceTypeDto>> GetAllResourceTypesByPagination(int page, int pageSize);
 
         /// <summary>
-        /// Вовзращает тип ресурса по заданному условию.
+        /// Вовзращает тип ресурса по заданному ИД.
         /// </summary>
         Task<ResourceTypeDto> GetResourceTypeById(int id);
 

@@ -36,13 +36,6 @@ namespace ConstructionPlanning.DataAccess.Objects
         public int UnitCost { get; set; }
 
         /// <summary>
-        /// Отображает статус отображения ресурса.
-        /// Если значение 'true', то ресурс отображается на странице пользователя.
-        /// Если знчение 'false' - не отображается на странице пользователя.
-        /// </summary>
-        public bool IsVisible { get; set; }
-
-        /// <summary>
         /// Список всех продаж по данному ресурсу.
         /// </summary>
         public IEnumerable<Sale>? Sales { get; set; }

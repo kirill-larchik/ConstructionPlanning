@@ -12,6 +12,8 @@ namespace ConstructionPlanning.DataAccess.DbContext
 
         public DbSet<Customer>? Customers { get; set; }
 
+        public DbSet<Provider>? Providers { get; set; }
+
         public DbSet<Delivery>? Deliveries { get; set; }
 
         public DbSet<Project>? Projects { get; set; }

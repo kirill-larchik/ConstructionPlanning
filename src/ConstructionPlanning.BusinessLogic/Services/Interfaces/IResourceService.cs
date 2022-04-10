@@ -33,7 +33,7 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         Task<int> GetTotalCountByResourceTypeId(int resourceTypeId);
 
         /// <summary>
-        /// Вовзращает ресурс по заданному условию.
+        /// Вовзращает ресурс по заданному ИД.
         /// </summary>
         Task<ResourceDto> GetResourceById(int id);
 

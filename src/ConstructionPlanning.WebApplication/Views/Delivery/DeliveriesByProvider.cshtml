@@ -1,0 +1,72 @@
+﻿@using ConstructionPlanning.WebApplication.Models.Delivery
+@model ConstructionPlanning.WebApplication.Models.Delivery.DeliveryByProviderViewModel
+
+@{
+    ViewData["Title"] = "Список поставок";
+}
+
+<h1>Список поставок от поставщика "@Model.ProviderName"</h1>
+
+<p>
+    @Html.ActionLink("Назад", "Details", "Provider", new { id = Model.ProviderId })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.ResourceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.ProviderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Cost)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Deliveries) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResourceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProviderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="GetDeliveriesByProviderId"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="GetDeliveriesByProviderId"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
