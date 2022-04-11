@@ -1,11 +1,11 @@
-﻿@using ConstructionPlanning.WebApplication.Models.Delivery
-@model ConstructionPlanning.WebApplication.Models.Delivery.DeliveryByResourceViewModel
+﻿@using ConstructionPlanning.WebApplication.Models.Sale
+@model ConstructionPlanning.WebApplication.Models.Sale.SaleByResourceViewModel
 
 @{
-    ViewData["Title"] = "Список поставок";
+    ViewData["Title"] = "Список продаж";
 }
 
-<h1>Список поставок по ресурсу "@Model.ResourceName"</h1>
+<h1>Список продаж по ресурсу "@Model.ResourceName"</h1>
 
 <p>
     @Html.ActionLink("Назад", "Details", "Resource", new { id = Model.ResourceId })
@@ -20,10 +20,13 @@
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.ResourceName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.ProviderName)
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Date)
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.UnitCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Count)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.TotalCost)
@@ -31,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Deliveries) {
+@foreach (var item in Model.Sales) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
@@ -40,10 +43,13 @@
                 @Html.DisplayFor(modelItem => item.ResourceName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProviderName)
+                @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => item.UnitCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TotalCost)
@@ -54,7 +60,7 @@
 </table>
 @if (Model.PageViewModel.HasPreviousPage)
 {
-    <a asp-action="GetDeliveriesByResourceId"
+    <a asp-action="GetSalesByResourceId"
        asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
        class="btn btn-outline-dark">
         <i class="glyphicon glyphicon-chevron-left"></i>
@@ -63,7 +69,7 @@
 }
 @if (Model.PageViewModel.HasNextPage)
 {
-    <a asp-action="GetDeliveriesByResourceId"
+    <a asp-action="GetSalesByResourceId"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
        class="btn btn-outline-dark">
         Вперед

@@ -7,6 +7,7 @@ namespace ConstructionPlanning.BusinessLogic.Services.Export
     /// <inheritdoc />
     public class DeliveryExportService : IExcelExportService<DeliveryDto>
     {
+        /// <inheritdoc />
         public byte[] Export(IEnumerable<DeliveryDto> data)
         {
             return data.ToExcel(schema => schema

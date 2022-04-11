@@ -1,14 +1,15 @@
-﻿@using ConstructionPlanning.WebApplication.Models.Delivery
-@model ConstructionPlanning.WebApplication.Models.Delivery.DeliveryByResourceViewModel
+﻿@using ConstructionPlanning.WebApplication.Models.Sale
+@model ConstructionPlanning.WebApplication.Models.Sale.SaleIndexViewModel
 
 @{
-    ViewData["Title"] = "Список поставок";
+    ViewData["Title"] = "Список продаж";
 }
 
-<h1>Список поставок по ресурсу "@Model.ResourceName"</h1>
+<h1>Список продаж</h1>
 
 <p>
-    @Html.ActionLink("Назад", "Details", "Resource", new { id = Model.ResourceId })
+    <a asp-action="Create">Добавить новую продажу</a> | 
+    <a asp-action="Export">Экспортировать данные</a>
 </p>
 <table class="table">
     <thead>
@@ -20,18 +21,16 @@
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.ResourceName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.ProviderName)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Date)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.TotalCost)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Deliveries) {
+@foreach (var item in Model.Sales) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
@@ -40,13 +39,15 @@
                 @Html.DisplayFor(modelItem => item.ResourceName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProviderName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TotalCost)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Подробная информация", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
             </td>
         </tr>
 }
@@ -54,7 +55,7 @@
 </table>
 @if (Model.PageViewModel.HasPreviousPage)
 {
-    <a asp-action="GetDeliveriesByResourceId"
+    <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
        class="btn btn-outline-dark">
         <i class="glyphicon glyphicon-chevron-left"></i>
@@ -63,7 +64,7 @@
 }
 @if (Model.PageViewModel.HasNextPage)
 {
-    <a asp-action="GetDeliveriesByResourceId"
+    <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
        class="btn btn-outline-dark">
         Вперед

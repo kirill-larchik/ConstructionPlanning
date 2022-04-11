@@ -48,22 +48,22 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         Task<DeliveryDto> GetDeliveryById(int id);
 
         /// <summary>
-        /// Вовзращает ресурс по заданному условию.
+        /// Вовзращает поставку по заданному условию.
         /// </summary>
         Task<DeliveryDto> GetDelivery(Func<DeliveryDto, bool> predicate);
 
         /// <summary>
-        /// Добавляет новый ресурс.
+        /// Добавляет новую поставку.
         /// </summary>
         Task AddDelivery(DeliveryDto deliveryDto);
 
         /// <summary>
-        /// Обновляет ресурс.
+        /// Обновляет поставку.
         /// </summary>
         Task UpdateDelivery(DeliveryDto deliveryDto);
 
         /// <summary>
-        /// Удаляет ресурс по заданному ИД.
+        /// Удаляет поставку по заданному ИД.
         /// </summary>
         Task DeleteDeliveryById(int id);
     }

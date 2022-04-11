@@ -50,8 +50,7 @@ CREATE TABLE [Resources] (
   [Name] nvarchar(255) UNIQUE NOT NULL,
   [TypeId] int,
   [AvaliableAmount] int NOT NULL DEFAULT (0),
-  [UnitCost] int NOT NULL,
-  [IsVisible] bit
+  [UnitCost] int NOT NULL
 )
 GO
 
@@ -75,10 +74,9 @@ GO
 
 CREATE TABLE [Providers] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [name] nvarchar(255) NOT NULL,
-  [address] nvarchar(255) NOT NULL,
-  [phone] nvarchar(255) NOT NULL,
-  [IsVisible] bit
+  [Name] nvarchar(255) NOT NULL,
+  [Address] nvarchar(255) NOT NULL,
+  [Phone] nvarchar(255) NOT NULL
 )
 GO
 
@@ -104,14 +102,14 @@ GO
 ALTER TABLE [ResourcesPerObject] ADD FOREIGN KEY ([ResourceId]) REFERENCES [Resources] ([Id])
 GO
 
-ALTER TABLE [Resources] ADD FOREIGN KEY ([TypeId]) REFERENCES [ResourceTypes] ([Id])
+ALTER TABLE [Resources] ADD FOREIGN KEY ([TypeId]) REFERENCES [ResourceTypes] ([Id]) ON DELETE CASCADE
 GO
 
-ALTER TABLE [Deliveries] ADD FOREIGN KEY ([ResourceId]) REFERENCES [Resources] ([Id])
+ALTER TABLE [Deliveries] ADD FOREIGN KEY ([ResourceId]) REFERENCES [Resources] ([Id]) ON DELETE SET NULL
 GO
 
-ALTER TABLE [Deliveries] ADD FOREIGN KEY ([ProviderId]) REFERENCES [Providers] ([Id])
+ALTER TABLE [Deliveries] ADD FOREIGN KEY ([ProviderId]) REFERENCES [Providers] ([Id]) ON DELETE SET NULL
 GO
 
-ALTER TABLE [Sales] ADD FOREIGN KEY ([ResourceId]) REFERENCES [Resources] ([Id])
+ALTER TABLE [Sales] ADD FOREIGN KEY ([ResourceId]) REFERENCES [Resources] ([Id]) ON DELETE SET NULL
 GO

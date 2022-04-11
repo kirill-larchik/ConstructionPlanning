@@ -56,13 +56,16 @@ namespace ConstructionPlanning.WebApplication
             services.AddTransient<IPaginationService<ResourceType, ResourceTypeDto>, ResourceTypePaginationService>();
             services.AddTransient<IPaginationService<Provider, ProviderDto>, ProviderPaginationService>();
             services.AddTransient<IPaginationService<Delivery, DeliveryDto>, DeliveryPaginationService>();
+            services.AddTransient<IPaginationService<Sale, SaleDto>, SalePaginationService>();
 
             services.AddTransient<IResourceTypeService, ResourceTypeService>();
             services.AddTransient<IResourceService, ResourceService>();
             services.AddTransient<IProviderService, ProviderService>();
             services.AddTransient<IDeliveryService, DeliveryService>();
+            services.AddTransient<ISaleService, SaleService>();
 
             services.AddTransient<IExcelExportService<DeliveryDto>, DeliveryExportService>();
+            services.AddTransient<IExcelExportService<SaleDto>, SaleExportService>();
 
             services.AddControllersWithViews(config => config.Filters.Add(typeof(CustomExceptionFilter)));
         }

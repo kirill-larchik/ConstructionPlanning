@@ -37,6 +37,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             var delivery = _mapper.Map<Delivery>(deliveryDto);
 
             delivery.Cost = deliveryDto.UnitCost * deliveryDto.Count;
+            await UpdateResourceAvaliableAmount(deliveryDto);
 
             await _deliveryRepository.Add(delivery);
             await _deliveryRepository.Save();
@@ -118,6 +119,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             var delivery = _mapper.Map<Delivery>(deliveryDto);
 
             delivery.Cost = delivery.UnitCost * delivery.Count;
+            await UpdateResourceAvaliableAmount(deliveryDto, true);
 
             await _deliveryRepository.Update(delivery);
             await _deliveryRepository.Save();
@@ -158,6 +160,28 @@ namespace ConstructionPlanning.BusinessLogic.Services
             {
                 throw new ArgumentNullException(nameof(deliveryById), "Поставки с таким ИД не существует.");
             }
+        }
+
+        private async Task UpdateResourceAvaliableAmount(DeliveryDto deliveryDto, bool isUpdate = false)
+        {
+            var resource = await _resourceRepository.GetById(deliveryDto.ResourceId);
+            if (isUpdate)
+            {
+                var delivery = await _deliveryRepository.GetById(deliveryDto.Id);
+                var offset = deliveryDto.Count - delivery.Count;
+                resource.AvaliableAmount += offset;
+                if (resource.AvaliableAmount <= 0)
+                {
+                    throw new ArgumentException($"Количество ресурсов на складе должно быть больше нуля ({Math.Abs(resource.AvaliableAmount) + 1}) требуется.");
+                }
+            }
+            else
+            {
+                resource.AvaliableAmount += deliveryDto.Count;
+            }
+
+            await _resourceRepository.Update(resource);
+            await _resourceRepository.Save();
         }
     }
 }

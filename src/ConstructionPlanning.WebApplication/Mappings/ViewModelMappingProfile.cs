@@ -5,6 +5,7 @@ using ConstructionPlanning.WebApplication.Models.Delivery;
 using ConstructionPlanning.WebApplication.Models.Provider;
 using ConstructionPlanning.WebApplication.Models.Resource;
 using ConstructionPlanning.WebApplication.Models.ResourceType;
+using ConstructionPlanning.WebApplication.Models.Sale;
 
 namespace ConstructionPlanning.WebApplication.Mappings
 {
@@ -38,6 +39,13 @@ namespace ConstructionPlanning.WebApplication.Mappings
             CreateMap<DeliveryEditViewModel, DeliveryDto>().ReverseMap();
             CreateMap<SelectListModel, ResourceDto>().ReverseMap();
             CreateMap<SelectListModel, ProviderDto>().ReverseMap();
+
+            CreateMap<SaleDto, SaleViewModel>()
+                .ForMember(x => x.ResourceName, y => y.MapFrom(src => src.Resource.Name))
+                .ForMember(x => x.UnitCost, y => y.MapFrom(src => src.Resource.UnitCost))
+                .ReverseMap();
+            CreateMap<SaleCreateViewModel, SaleDto>().ReverseMap();
+            CreateMap<SaleEditViewModel, SaleDto>().ReverseMap();
         }
     }
 }

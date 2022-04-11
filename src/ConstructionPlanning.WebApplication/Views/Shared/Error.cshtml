@@ -6,5 +6,9 @@
 <h1>Возникла ошибка при выполнении работы.</h1>
 
 <p>@exception.Message</p>
+@if (exception.InnerException != null)
+{
+    <p>@exception.InnerException.Message</p>
+}
 
 <p>@Html.ActionLink("Вернутсья на домашнюю страницу", "Index", "Home")</p>
