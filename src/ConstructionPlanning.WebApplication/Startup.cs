@@ -10,6 +10,7 @@ using ConstructionPlanning.DataAccess.Repositories;
 using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Filters;
 using ConstructionPlanning.WebApplication.Mappings;
+using ConstructionPlanning.WebApplication.Models.User;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Threading.Tasks;
 
 namespace ConstructionPlanning.WebApplication
@@ -41,7 +43,8 @@ namespace ConstructionPlanning.WebApplication
                 options.UseSqlServer(Configuration.GetConnectionString("ConstructionPlanningIdentityDb")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAutoMapper(typeof(DtoMappingProfile), typeof(ViewModelMappingProfile));
@@ -71,7 +74,7 @@ namespace ConstructionPlanning.WebApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +94,8 @@ namespace ConstructionPlanning.WebApplication
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            UserService.InitializeRolesAndUserAsync(serviceProvider, Configuration).Wait();
 
             app.UseEndpoints(endpoints =>
             {

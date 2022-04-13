@@ -36,7 +36,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             await Validate(deliveryDto);
             var delivery = _mapper.Map<Delivery>(deliveryDto);
 
-            delivery.Cost = deliveryDto.UnitCost * deliveryDto.Count;
+            delivery.TotalCost = deliveryDto.UnitCost * deliveryDto.Count;
             await UpdateResourceAvaliableAmount(deliveryDto);
 
             await _deliveryRepository.Add(delivery);
@@ -118,7 +118,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             await Validate(deliveryDto);
             var delivery = _mapper.Map<Delivery>(deliveryDto);
 
-            delivery.Cost = delivery.UnitCost * delivery.Count;
+            delivery.TotalCost = delivery.UnitCost * delivery.Count;
             await UpdateResourceAvaliableAmount(deliveryDto, true);
 
             await _deliveryRepository.Update(delivery);

@@ -17,7 +17,7 @@ namespace ConstructionPlanning.BusinessLogic.Services.Export
                 .AddColumn("Дата поставки", x => x.Date)
                 .AddColumn("Цена за единицу", x => x.UnitCost)
                 .AddColumn("Количество ресурсов", x => x.Count)
-                .AddColumn("Итоговая стоимость", x => x.Cost));
+                .AddColumn("Итоговая стоимость", x => x.TotalCost));
         }
     }
 }

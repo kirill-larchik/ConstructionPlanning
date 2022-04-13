@@ -48,6 +48,6 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// <summary>
         /// Общая стоимость поставки.
         /// </summary>
-        public int Cost { get; set; }
+        public int TotalCost { get; set; }
     }
 }

@@ -17,9 +17,6 @@
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.ResourceName)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Date)
             </th>
             <th>
@@ -40,9 +37,6 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ResourceName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
@@ -61,6 +55,7 @@
 @if (Model.PageViewModel.HasPreviousPage)
 {
     <a asp-action="GetSalesByResourceId"
+       asp-route-resourceId="@Model.ResourceId"
        asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
        class="btn btn-outline-dark">
         <i class="glyphicon glyphicon-chevron-left"></i>
@@ -70,6 +65,7 @@
 @if (Model.PageViewModel.HasNextPage)
 {
     <a asp-action="GetSalesByResourceId"
+       asp-route-resourceId="@Model.ResourceId"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
        class="btn btn-outline-dark">
         Вперед

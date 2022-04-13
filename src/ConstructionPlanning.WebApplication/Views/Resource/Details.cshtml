@@ -43,7 +43,8 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Редактировать информацию", "Edit", new { id = Model.Id }) <br />
-    @Html.ActionLink("Получить список поставок", "GetDeliveriesByResourceId", "Delivery", new { resourceId = Model.Id }) <br />
+    @Html.ActionLink("Редактировать информацию.", "Edit", new { id = Model.Id }) <br />
+    @Html.ActionLink("Получить список поставок.", "GetDeliveriesByResourceId", "Delivery", new { resourceId = Model.Id }) <br />
+    @Html.ActionLink("Получить список продаж.", "GetSalesByResourceId", "Sale", new { resourceId = Model.Id }) <br /><br />
     <a asp-action="Index">Вернуться к списку ресурсов.</a>
 </div>

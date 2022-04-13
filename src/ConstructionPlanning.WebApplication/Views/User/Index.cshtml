@@ -1,0 +1,54 @@
+﻿@using ConstructionPlanning.WebApplication.Data
+@model IEnumerable<ConstructionPlanning.WebApplication.Models.User.User>
+@{
+    ViewBag.Title = "Список пользователей";
+}
+
+<h1>Список пользователей</h1>
+
+<p>
+    <a asp-action="Create">Добавить пользователя</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Почта
+            </th>
+            <th>
+                Имя
+            </th>
+            <th>
+                Фамилия
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) 
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Forename)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td class="text-center">
+                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id })
+                @if (!User.IsInRole(Roles.Admin))
+                {
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                        <button type="submit" class="btn btn-link">
+                            Удалить
+                        </button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
