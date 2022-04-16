@@ -3,6 +3,7 @@ using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.WebApplication.Models;
 using ConstructionPlanning.WebApplication.Models.Provider;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ConstructionPlanning.WebApplication.Controllers
 {
+    [Authorize]
     public class ProviderController : Controller
     {
         private readonly IProviderService _providerService;

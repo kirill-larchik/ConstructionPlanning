@@ -4,6 +4,7 @@ using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.WebApplication.Models;
 using ConstructionPlanning.WebApplication.Models.Resource;
 using ConstructionPlanning.WebApplication.Models.ResourceType;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace ConstructionPlanning.WebApplication.Controllers
 {
+    [Authorize]
     public class ResourceController : Controller
     {
         const int pageSize = 5;

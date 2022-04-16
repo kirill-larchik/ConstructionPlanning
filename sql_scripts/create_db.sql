@@ -68,7 +68,7 @@ CREATE TABLE [Deliveries] (
   [Date] datetime NOT NULL,
   [UnitCost] int NOT NULL,
   [Count] int NOT NULL,
-  [Cost] int NOT NULL
+  [TotalCost] int NOT NULL
 )
 GO
 

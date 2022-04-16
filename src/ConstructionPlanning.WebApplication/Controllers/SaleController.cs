@@ -3,6 +3,7 @@ using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.WebApplication.Models;
 using ConstructionPlanning.WebApplication.Models.Sale;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ConstructionPlanning.WebApplication.Controllers
 {
+    [Authorize]
     public class SaleController : Controller
     {
         const int pageSize = 5;

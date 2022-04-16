@@ -43,7 +43,7 @@ namespace ConstructionPlanning.WebApplication.Areas.Identity.Pages.Account
         {
             [TranslatedRequared]
             [Display(Name = "Почта")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Неверный формат почты")]
             public string Email { get; set; }
 
             [TranslatedRequared]
