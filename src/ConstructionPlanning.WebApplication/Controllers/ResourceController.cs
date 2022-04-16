@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
+using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Models;
 using ConstructionPlanning.WebApplication.Models.Resource;
 using ConstructionPlanning.WebApplication.Models.ResourceType;
@@ -16,8 +17,6 @@ namespace ConstructionPlanning.WebApplication.Controllers
     [Authorize]
     public class ResourceController : Controller
     {
-        const int pageSize = 5;
-
         private readonly IResourceService _resourceService;
         private readonly IResourceTypeService _resourceTypeService;
         private readonly IMapper _mapper;
@@ -31,8 +30,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Index(int page = 1)
         {
-            var resources = await _resourceService.GetAllResourcesByPagination(page, pageSize);
-            var pageViewModel = new PageViewModel(await _resourceService.GetTotalCount(), page, pageSize);
+            var resources = await _resourceService.GetAllResourcesByPagination(page, Constants.PageSize);
+            var pageViewModel = new PageViewModel(await _resourceService.GetTotalCount(), page, Constants.PageSize);
             var indexViewModel = new ResourceIndexViewModel
             {
                 PageViewModel = pageViewModel,
@@ -56,8 +55,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
             }
 
             var resourceType = await _resourceTypeService.GetResourceTypeById(resourceTypeId.Value);
-            var resources = await _resourceService.GetAllResourcesByResourceTypeIdWithPagination(resourceTypeId.Value, page, pageSize);
-            var pageViewModel = new PageViewModel(await _resourceService.GetTotalCountByResourceTypeId(resourceTypeId.Value), page, pageSize);
+            var resources = await _resourceService.GetAllResourcesByResourceTypeIdWithPagination(resourceTypeId.Value, page, Constants.PageSize);
+            var pageViewModel = new PageViewModel(await _resourceService.GetTotalCountByResourceTypeId(resourceTypeId.Value), page, Constants.PageSize);
             var indexViewModel = new ResourceByTypeViewModel
             {
                 ResourceTypeId = resourceType.Id,

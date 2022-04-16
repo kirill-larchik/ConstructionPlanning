@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
+using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Models;
 using ConstructionPlanning.WebApplication.Models.ResourceType;
 using Microsoft.AspNetCore.Authorization;
@@ -25,10 +26,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Index(int page = 1)
         {
-            const int pageSize = 5;
-
-            var resourceTypes = await _resourceTypeService.GetAllResourceTypesByPagination(page, pageSize);
-            var pageViewModel = new PageViewModel(await _resourceTypeService.GetTotalCount(), page, pageSize);
+            var resourceTypes = await _resourceTypeService.GetAllResourceTypesByPagination(page, Constants.PageSize);
+            var pageViewModel = new PageViewModel(await _resourceTypeService.GetTotalCount(), page, Constants.PageSize);
             var indexViewModel = new ResourceTypeIndexViewModel
             {
                 PageViewModel = pageViewModel,

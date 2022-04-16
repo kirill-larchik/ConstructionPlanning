@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
+using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Models;
 using ConstructionPlanning.WebApplication.Models.Sale;
 using Microsoft.AspNetCore.Authorization;
@@ -15,8 +16,6 @@ namespace ConstructionPlanning.WebApplication.Controllers
     [Authorize]
     public class SaleController : Controller
     {
-        const int pageSize = 5;
-
         private readonly ISaleService _saleService;
         private readonly IResourceService _resourceService;
         private readonly IMapper _mapper;
@@ -35,8 +34,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Index(int page = 1)
         {
-            var sales = await _saleService.GetAllSalesByPagination(page, pageSize);
-            var pageViewModel = new PageViewModel(await _saleService.GetTotalCount(), page, pageSize);
+            var sales = await _saleService.GetAllSalesByPagination(page, Constants.PageSize);
+            var pageViewModel = new PageViewModel(await _saleService.GetTotalCount(), page, Constants.PageSize);
             var indexViewModel = new SaleIndexViewModel
             {
                 PageViewModel = pageViewModel,
@@ -60,8 +59,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
             }
 
             var resource = await _resourceService.GetResourceById(resourceId.Value);
-            var sales = await _saleService.GetAllSalesByResourceIdWithPagination(resourceId.Value, page, pageSize);
-            var pageViewModel = new PageViewModel(await _saleService.GetTotalCountByResourceId(resourceId.Value), page, pageSize);
+            var sales = await _saleService.GetAllSalesByResourceIdWithPagination(resourceId.Value, page, Constants.PageSize);
+            var pageViewModel = new PageViewModel(await _saleService.GetTotalCountByResourceId(resourceId.Value), page, Constants.PageSize);
             var indexViewModel = new SaleByResourceViewModel
             {
                 ResourceId = resource.Id,

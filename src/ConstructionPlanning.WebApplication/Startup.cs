@@ -96,6 +96,7 @@ namespace ConstructionPlanning.WebApplication
             app.UseAuthorization();
 
             UserService.InitializeRolesAndUserAsync(serviceProvider, Configuration).Wait();
+            InitPageSize();
 
             app.UseEndpoints(endpoints =>
             {
@@ -106,6 +107,18 @@ namespace ConstructionPlanning.WebApplication
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+
+        private void InitPageSize()
+        {
+            if (int.TryParse(Configuration["PageSize"], out int pageSize))
+            {
+                Constants.PageSize = pageSize;
+            }
+            else
+            {
+                Constants.PageSize = 10;
+            }
         }
     }
 }

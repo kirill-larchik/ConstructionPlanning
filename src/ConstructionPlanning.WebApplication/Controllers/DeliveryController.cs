@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
+using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Models;
 using ConstructionPlanning.WebApplication.Models.Delivery;
 using Microsoft.AspNetCore.Authorization;
@@ -15,8 +16,6 @@ namespace ConstructionPlanning.WebApplication.Controllers
     [Authorize]
     public class DeliveryController : Controller
     {
-        const int pageSize = 5;
-
         private readonly IDeliveryService _deliveryService;
         private readonly IResourceService _resourceService;
         private readonly IProviderService _providerService;
@@ -38,8 +37,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Index(int page = 1)
         {
-            var deliveries = await _deliveryService.GetAllDeliveriesByPagination(page, pageSize);
-            var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCount(), page, pageSize);
+            var deliveries = await _deliveryService.GetAllDeliveriesByPagination(page, Constants.PageSize);
+            var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCount(), page, Constants.PageSize);
             var indexViewModel = new DeliveryIndexViewModel
             {
                 PageViewModel = pageViewModel,
@@ -63,8 +62,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
             }
 
             var provider = await _providerService.GetProviderById(providerId.Value);
-            var deliveries = await _deliveryService.GetAllDeliveriesByProviderIdWithPagination(providerId.Value, page, pageSize);
-            var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCountByProviderId(providerId.Value), page, pageSize);
+            var deliveries = await _deliveryService.GetAllDeliveriesByProviderIdWithPagination(providerId.Value, page, Constants.PageSize);
+            var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCountByProviderId(providerId.Value), page, Constants.PageSize);
             var indexViewModel = new DeliveryByProviderViewModel
             {
                 ProviderId = provider.Id,
@@ -86,8 +85,8 @@ namespace ConstructionPlanning.WebApplication.Controllers
             }
 
             var resource = await _resourceService.GetResourceById(resourceId.Value);
-            var deliveries = await _deliveryService.GetAllDeliveriesByResourceIdWithPagination(resourceId.Value, page, pageSize);
-            var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCountByResourceId(resourceId.Value), page, pageSize);
+            var deliveries = await _deliveryService.GetAllDeliveriesByResourceIdWithPagination(resourceId.Value, page, Constants.PageSize);
+            var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCountByResourceId(resourceId.Value), page, Constants.PageSize);
             var indexViewModel = new DeliveryByResourceViewModel
             {
                 ResourceId = resource.Id,
