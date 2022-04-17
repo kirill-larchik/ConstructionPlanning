@@ -18,7 +18,7 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// <summary>
         /// ИД типа ресурса.
         /// </summary>
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
 
         /// <summary>
         /// Тип ресурса.
@@ -44,10 +44,5 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// Список всех поставок по данному ресурсу.
         /// </summary>
         public IEnumerable<Delivery>? Deliveries { get; set; }
-
-        /// <summary>
-        /// Список всех объектов по данному ресурсу.
-        /// </summary>
-        public IEnumerable<ResourcePerObject>? ResourcesPerObject { get; set; }
     }
 }

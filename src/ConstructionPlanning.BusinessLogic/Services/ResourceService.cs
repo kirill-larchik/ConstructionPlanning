@@ -49,8 +49,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         {
             var resources = _resourceRepository.GetAll(x => x.Sales,
                 x => x.Deliveries,
-                x => x.Type,
-                x => x.ResourcesPerObject)
+                x => x.Type)
                 .AsEnumerable();
 
             return _mapper.Map<IEnumerable<ResourceDto>>(resources);

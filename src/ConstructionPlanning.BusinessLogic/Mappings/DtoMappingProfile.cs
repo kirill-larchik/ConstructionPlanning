@@ -11,13 +11,9 @@ namespace ConstructionPlanning.BusinessLogic.Mappings
     {
         public DtoMappingProfile()
         {
-            CreateMap<ConstructionObject, ConstructionObjectDto>().ReverseMap();
-            CreateMap<Customer, CustomerDto>().ReverseMap();
             CreateMap<Delivery, DeliveryDto>().ReverseMap();
-            CreateMap<Project, ProjectDto>().ReverseMap();
             CreateMap<Provider, ProviderDto>().ReverseMap();
             CreateMap<Resource, ResourceDto>().ReverseMap();
-            CreateMap<ResourcePerObject, ResourcePerObjectDto>().ReverseMap();
             CreateMap<ResourceType, ResourceTypeDto>().ReverseMap();
             CreateMap<Sale, SaleDto>().ReverseMap();
         }

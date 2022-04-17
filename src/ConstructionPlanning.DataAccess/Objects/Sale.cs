@@ -18,7 +18,7 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// <summary>
         /// ИД ресурса.
         /// </summary>
-        public int ResourceId { get; set; }
+        public int? ResourceId { get; set; }
 
         /// <summary>
         /// Ресурс.
