@@ -26,8 +26,7 @@ CREATE TABLE [Deliveries] (
   [ProviderId] int,
   [Date] datetime NOT NULL,
   [UnitCost] int NOT NULL,
-  [Count] int NOT NULL,
-  [TotalCost] int NOT NULL
+  [Count] int NOT NULL
 )
 GO
 
@@ -44,8 +43,7 @@ CREATE TABLE [Sales] (
   [Date] datetime NOT NULL,
   [ResourceId] int,
   [Customer] nvarchar(255) NOT NULL,
-  [Count] int NOT NULL,
-  [TotalCost] int NOT NULL
+  [Count] int NOT NULL
 )
 GO
 

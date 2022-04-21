@@ -44,10 +44,5 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// Стоимость единицы ресурса.
         /// </summary>
         public int UnitCost { get; set; }
-
-        /// <summary>
-        /// Общая стоимость поставки.
-        /// </summary>
-        public int TotalCost { get; set; }
     }
 }

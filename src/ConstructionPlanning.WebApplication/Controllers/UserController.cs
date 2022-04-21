@@ -30,7 +30,15 @@ namespace ConstructionPlanning.WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { Email = model.Email, UserName = model.Email, Forename = model.Forename, Surname = model.Surname };
+                var user = new User 
+                { 
+                    Email = model.Email,
+                    UserName = model.Email,
+                    Forename = model.Forename,
+                    Surname = model.Surname,
+                    IsAdmin = model.IsAdmin,
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -69,7 +77,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
                 Email = user.Email,
                 Forename = user.Forename,
                 Surname = user.Surname,
-                IsAdmin = userRoles.Any(x => x == Roles.Admin) ? true : false,
+                IsAdmin = user.IsAdmin,
             };
 
             model.IsCurrentAdmin = model.IsAdmin && User.Identity.Name == user.UserName ? true : false;
@@ -89,6 +97,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
                     user.UserName = model.Email;
                     user.Forename = model.Forename;
                     user.Surname = model.Surname;
+                    user.IsAdmin = model.IsAdmin;
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)

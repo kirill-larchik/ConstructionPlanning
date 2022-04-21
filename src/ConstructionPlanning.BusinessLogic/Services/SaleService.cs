@@ -34,7 +34,6 @@ namespace ConstructionPlanning.BusinessLogic.Services
             var sale = _mapper.Map<Sale>(saleDto);
 
             var resource = await _resourceRepository.GetById(saleDto.ResourceId);
-            sale.TotalCost = resource.UnitCost * saleDto.Count;
             await UpdateResourceAvaliableAmount(saleDto, resource);
 
             await _saleRepository.Add(sale);
@@ -102,7 +101,6 @@ namespace ConstructionPlanning.BusinessLogic.Services
             var sale = _mapper.Map<Sale>(saleDto);
 
             var resource = await _resourceRepository.GetById(saleDto.ResourceId);
-            sale.TotalCost = resource.UnitCost * saleDto.Count;
             await UpdateResourceAvaliableAmount(saleDto, resource, true);
 
             await _saleRepository.Update(sale);

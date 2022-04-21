@@ -7,5 +7,7 @@ namespace ConstructionPlanning.WebApplication.Models.User
         public string Surname { get; set; }
 
         public string Forename { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }
