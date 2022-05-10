@@ -12,8 +12,8 @@ namespace ConstructionPlanning.BusinessLogic.Services.Export
         {
             return data.ToExcel(schema => schema
                 .AddColumn("Номер поставки", x => x.Id)
-                .AddColumn("Поставщик", x => x.Provider?.Name ?? "Информация отсутсвует")
-                .AddColumn("Ресурс", x => x.Resource?.Name ?? "Информация отсутсвует")
+                .AddColumn("Поставщик", x => x.Provider.Name)
+                .AddColumn("Ресурс", x => x.Resource.Name)
                 .AddColumn("Дата поставки", x => x.Date)
                 .AddColumn("Цена за единицу", x => x.UnitCost)
                 .AddColumn("Количество ресурсов", x => x.Count)

@@ -18,7 +18,7 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// <summary>
         /// ИД ресурса.
         /// </summary>
-        public int? ResourceId { get; set; }
+        public int ResourceId { get; set; }
 
         /// <summary>
         /// Ресурс.
@@ -33,6 +33,11 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// <summary>
         /// Количество проданных ресурсов.
         /// </summary>
-        public int Count { get; set; }
+        public int Count { get; set; } 
+        
+        /// <summary>
+        /// Общая стоимость продажи.
+        /// </summary>
+        public int TotalCost { get; set; }  
     }
 }

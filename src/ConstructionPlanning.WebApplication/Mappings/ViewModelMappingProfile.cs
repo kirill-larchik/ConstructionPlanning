@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ConstructionPlanning.BusinessLogic.DTO;
-using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Models;
 using ConstructionPlanning.WebApplication.Models.Delivery;
 using ConstructionPlanning.WebApplication.Models.Provider;
@@ -18,7 +17,7 @@ namespace ConstructionPlanning.WebApplication.Mappings
         public ViewModelMappingProfile()
         {
             CreateMap<ResourceDto, ResourceViewModel>()
-                .ForMember(x => x.TypeName, y => y.MapFrom(src => src.Type != null ? src.Type.Name : Constants.NoInfoString))
+                .ForMember(x => x.TypeName, y => y.MapFrom(src => src.Type.Name))
                 .ReverseMap();
             CreateMap<ResourceCreateViewModel, ResourceDto>().ReverseMap();
             CreateMap<ResourceEditViewModel, ResourceDto>().ReverseMap();
@@ -33,8 +32,8 @@ namespace ConstructionPlanning.WebApplication.Mappings
             CreateMap<ProviderEditViewModel, ProviderDto>().ReverseMap();
 
             CreateMap<DeliveryDto, DeliveryViewModel>()
-                .ForMember(x => x.ResourceName, y => y.MapFrom(src => src.Resource != null ? src.Resource.Name : Constants.NoInfoString))
-                .ForMember(x => x.ProviderName, y => y.MapFrom(src => src.Provider != null ? src.Provider.Name : Constants.NoInfoString))
+                .ForMember(x => x.ResourceName, y => y.MapFrom(src => src.Resource.Name))
+                .ForMember(x => x.ProviderName, y => y.MapFrom(src => src.Provider.Name))
                 .ReverseMap();
             CreateMap<DeliveryCreateViewModel, DeliveryDto>().ReverseMap();
             CreateMap<DeliveryEditViewModel, DeliveryDto>().ReverseMap();
@@ -42,7 +41,7 @@ namespace ConstructionPlanning.WebApplication.Mappings
             CreateMap<SelectListModel, ProviderDto>().ReverseMap();
 
             CreateMap<SaleDto, SaleViewModel>()
-                .ForMember(x => x.ResourceName, y => y.MapFrom(src => src.Resource != null ? src.Resource.Name : Constants.NoInfoString))
+                .ForMember(x => x.ResourceName, y => y.MapFrom(src => src.Resource.Name))
                 .ForMember(x => x.UnitCost, y => y.MapFrom(src => src.Resource.UnitCost))
                 .ReverseMap();
             CreateMap<SaleCreateViewModel, SaleDto>().ReverseMap();

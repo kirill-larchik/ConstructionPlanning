@@ -37,7 +37,6 @@ namespace ConstructionPlanning.WebApplication.Data
                 Email = configuration[$"Users:{userRole}:Email"],
                 Forename = configuration[$"Users:{userRole}:Forename"],
                 Surname = configuration[$"Users:{userRole}:Surname"],
-                IsAdmin = userRole == Roles.Admin ? true : false,
             };
 
             var newUserPassword = configuration[$"Users:{userRole}:Password"];
