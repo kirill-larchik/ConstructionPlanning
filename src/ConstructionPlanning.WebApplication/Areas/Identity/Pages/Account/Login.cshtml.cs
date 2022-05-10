@@ -87,7 +87,7 @@ namespace ConstructionPlanning.WebApplication.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Вы ввели неверно почту или пароль.");
+                    ModelState.AddModelError(string.Empty, "Неверный логин или пароль.");
                     return Page();
                 }
             }

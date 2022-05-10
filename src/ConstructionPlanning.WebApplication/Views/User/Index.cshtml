@@ -39,7 +39,7 @@
             </td>
             <td class="text-center">
                 @Html.ActionLink("Редактировать", "Edit", new { id=item.Id })
-                @if (User.IsInRole(Roles.Admin) && User.Identity.Name != item.Email && !item.IsAdmin)
+                @if (!User.IsInRole(Roles.Admin))
                 {
                     <form asp-action="Delete" asp-route-id="@item.Id" method="post">
                         <button type="submit" class="btn btn-link">

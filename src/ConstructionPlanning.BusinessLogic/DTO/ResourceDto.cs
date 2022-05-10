@@ -42,5 +42,10 @@
         /// Список всех поставок по данному ресурсу.
         /// </summary>
         public IEnumerable<DeliveryDto>? Deliveries { get; set; }
+
+        /// <summary>
+        /// Список всех объектов по данному ресурсу.
+        /// </summary>
+        public IEnumerable<ResourcePerObjectDto>? ResourcesPerObject { get; set; }
     }
 }
