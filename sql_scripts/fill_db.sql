@@ -27,14 +27,14 @@ insert into Providers(Name, Address, Phone) values
 
 go
 
-insert into Sales(Date, ResourceId, Customer, Count, TotalCost) values
-	('2022-04-01', 1, 'Первый покупатель', 100, 10000),
-	('2022-04-01', 4, 'Второй покупатель', 1, 10000),
-	('2022-04-02', 8, 'Первый покупатель', 100, 30000)
+insert into Sales(Date, ResourceId, Customer, Count) values
+	('2022-04-01', 1, 'Первый покупатель', 100),
+	('2022-04-01', 4, 'Второй покупатель', 1),
+	('2022-04-02', 8, 'Первый покупатель', 100)
 
 go
 
-insert into Deliveries(ResourceId, ProviderId, Date, UnitCost, Count, TotalCost) values
-	(2, 1, '2022-04-01', 100, 10, 1000),
-	(5, 2, '2022-04-02', 10000, 1, 10000),
-	(7, 3, '2022-04-03', 300, 10, 3000)
+insert into Deliveries(ResourceId, ProviderId, Date, UnitCost, Count) values
+	(2, 1, '2022-04-01', 100, 10),
+	(5, 2, '2022-04-02', 10000, 1),
+	(7, 3, '2022-04-03', 300, 10)
