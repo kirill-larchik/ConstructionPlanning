@@ -19,6 +19,11 @@
         public int ProjectId { get; set; }
 
         /// <summary>
+        /// Итоговые затраты на объект.
+        /// </summary>
+        public int TotalCost { get; set; }
+
+        /// <summary>
         /// Проект.
         /// </summary>
         public ProjectDto? Project { get; set; }

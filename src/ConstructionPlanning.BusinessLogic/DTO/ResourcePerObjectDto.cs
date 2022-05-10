@@ -14,19 +14,9 @@
         public int ConstructionObjectId { get; set; }
 
         /// <summary>
-        /// Строительный объект.
-        /// </summary>
-        public ConstructionObjectDto? ConstructionObject { get; set; }
-
-        /// <summary>
         /// ИД ресурса.
         /// </summary>
         public int ResourceId { get; set; }
-
-        /// <summary>
-        /// Ресурс.
-        /// </summary>
-        public ResourceDto? Resource { get; set; }
 
         /// <summary>
         /// Необходимое количество ресурсов.
@@ -34,13 +24,23 @@
         public int Count { get; set; }
 
         /// <summary>
-        /// Необходимое используемых ресурсов.
-        /// </summary>
-        public int UsedCount { get; set; }
-
-        /// <summary>
         /// Общая сумма затрат.
         /// </summary>
         public int TotalCost { get; set; }
+
+        /// <summary>
+        /// Разница между ресурсами на складе и необходимым количеством ресурсов.
+        /// </summary>
+        public int ResourceCountOffset { get; set; }
+
+        /// <summary>
+        /// Строительный объект.
+        /// </summary>
+        public ConstructionObjectDto? ConstructionObject { get; set; }
+
+        /// <summary>
+        /// Ресурс.
+        /// </summary>
+        public ResourceDto? Resource { get; set; }
     }
 }

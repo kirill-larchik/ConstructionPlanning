@@ -24,13 +24,13 @@
         public int Count { get; set; }
 
         /// <summary>
-        /// Необходимое используемых ресурсов.
-        /// </summary>
-        public int UsedCount { get; set; }
-
-        /// <summary>
         /// Строительный объект.
         /// </summary>
         public ConstructionObject? ConstructionObject { get; set; }
+
+        /// <summary>
+        /// Ресурс.
+        /// </summary>
+        public Resource? Resource { get; set; }
     }
 }

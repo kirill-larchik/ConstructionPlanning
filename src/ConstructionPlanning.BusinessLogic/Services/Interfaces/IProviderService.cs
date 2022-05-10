@@ -23,7 +23,7 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         Task<int> GetTotalCount();
 
         /// <summary>
-        /// Вовзращает всех поставщиков по ИД.
+        /// Вовзращает поставщика по ИД.
         /// </summary>
         Task<ProviderDto> GetProviderById(int id);
 
