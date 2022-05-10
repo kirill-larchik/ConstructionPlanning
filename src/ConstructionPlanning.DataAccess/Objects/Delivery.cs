@@ -13,22 +13,12 @@ namespace ConstructionPlanning.DataAccess.Objects
         /// <summary>
         /// ИД ресурса.
         /// </summary>
-        public int ResourceId { get; set; }
-
-        /// <summary>
-        /// Ресурс.
-        /// </summary>
-        public Resource? Resource { get; set; }
+        public int? ResourceId { get; set; }
 
         /// <summary>
         /// ИД поставщика.
         /// </summary>
-        public int ProviderId { get; set; }
-
-        /// <summary>
-        /// Поставщик.
-        /// </summary>
-        public Provider? Provider { get; set; }
+        public int? ProviderId { get; set; }
 
         /// <summary>
         /// Дата поставки.
@@ -36,18 +26,23 @@ namespace ConstructionPlanning.DataAccess.Objects
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Количество ресурсов.
-        /// </summary>
-        public int Count { get; set; }
-
-        /// <summary>
         /// Стоимость единицы ресурса.
         /// </summary>
         public int UnitCost { get; set; }
 
         /// <summary>
-        /// Общая стоимость поставки.
+        /// Количество ресурсов.
         /// </summary>
-        public int TotalCost { get; set; }
+        public int Count { get; set; }
+
+        /// <summary>
+        /// Ресурс.
+        /// </summary>
+        public Resource? Resource { get; set; }
+
+        /// <summary>
+        /// Поставщик.
+        /// </summary>
+        public Provider? Provider { get; set; }
     }
 }

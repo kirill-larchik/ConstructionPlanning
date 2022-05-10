@@ -37,7 +37,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Index(int page = 1)
         {
-            var deliveries = await _deliveryService.GetAllDeliveriesByPagination(page, Constants.PageSize);
+            var deliveries = await _deliveryService.GetAllPaginatedDeliveries(page, Constants.PageSize);
             var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCount(), page, Constants.PageSize);
             var indexViewModel = new DeliveryIndexViewModel
             {
@@ -62,7 +62,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
             }
 
             var provider = await _providerService.GetProviderById(providerId.Value);
-            var deliveries = await _deliveryService.GetAllDeliveriesByProviderIdWithPagination(providerId.Value, page, Constants.PageSize);
+            var deliveries = await _deliveryService.GetAllPaginatedDeliveriesByProviderId(providerId.Value, page, Constants.PageSize);
             var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCountByProviderId(providerId.Value), page, Constants.PageSize);
             var indexViewModel = new DeliveryByProviderViewModel
             {
@@ -85,7 +85,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
             }
 
             var resource = await _resourceService.GetResourceById(resourceId.Value);
-            var deliveries = await _deliveryService.GetAllDeliveriesByResourceIdWithPagination(resourceId.Value, page, Constants.PageSize);
+            var deliveries = await _deliveryService.GetAllPaginatedDeliveriesByResourceId(resourceId.Value, page, Constants.PageSize);
             var pageViewModel = new PageViewModel(await _deliveryService.GetTotalCountByResourceId(resourceId.Value), page, Constants.PageSize);
             var indexViewModel = new DeliveryByResourceViewModel
             {

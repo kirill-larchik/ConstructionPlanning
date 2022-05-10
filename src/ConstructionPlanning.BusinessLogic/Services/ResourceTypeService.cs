@@ -36,7 +36,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task DeleteResourceTypeById(int id)
         {
-            await IsResourceTypeExists(id);
+            await GetResourceTypeById(id);
             await _resourceTypeRepository.Delete(id);
             await _resourceTypeRepository.Save();
         }
@@ -61,24 +61,23 @@ namespace ConstructionPlanning.BusinessLogic.Services
         }
 
         /// <inheritdoc />
-        public async Task<ResourceTypeDto> GetResourceType(Func<ResourceTypeDto, bool> predicate)
-        {
-            return (await GetAllResourceTypes()).FirstOrDefault(predicate);
-        }
-
-        /// <inheritdoc />
         public async Task<ResourceTypeDto> GetResourceTypeById(int id)
         {
-            await IsResourceTypeExists(id);
-            var resourceType = await _resourceTypeRepository.GetById(id);
-            return _mapper.Map<ResourceTypeDto>(resourceType);
+            var resourceTypeById = await _resourceTypeRepository.GetById(id);
+            if (resourceTypeById == null)
+            {
+                throw new ArgumentNullException(nameof(resourceTypeById), "Типа ресурса с таким ИД не существует.");
+            }
+
+            return _mapper.Map<ResourceTypeDto>(resourceTypeById);
         }
 
         /// <inheritdoc />
         public async Task UpdateResourceType(ResourceTypeDto resourceTypeDto)
         {
-            await IsResourceTypeExists(resourceTypeDto.Id);
+            await GetResourceTypeById(resourceTypeDto.Id);
             await Validate(resourceTypeDto, true);
+
             var resourceType = _mapper.Map<ResourceType>(resourceTypeDto);
             await _resourceTypeRepository.Update(resourceType);
             await _resourceTypeRepository.Save();
@@ -106,15 +105,6 @@ namespace ConstructionPlanning.BusinessLogic.Services
                 (isUpdate && resourceTypes.Where(x => x.Name != resourceTypeName).Any(x => x.Name == resourceTypeDto.Name)))
             {
                 throw new ArgumentException("Тип ресурса с таким названием уже существует.");
-            }
-        }
-
-        private async Task IsResourceTypeExists(int id)
-        {
-            var resourceTypeById = await _resourceTypeRepository.GetById(id);
-            if (resourceTypeById == null)
-            {
-                throw new ArgumentNullException(nameof(resourceTypeById), "Типа ресурса с таким ИД не существует.");
             }
         }
     }

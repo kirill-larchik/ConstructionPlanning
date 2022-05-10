@@ -37,7 +37,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task DeleteProviderById(int id)
         {
-            await IsProviderExists(id);
+            await GetProviderById(id);
             await _providerRepository.Delete(id);
             await _providerRepository.Save();
         }
@@ -50,23 +50,21 @@ namespace ConstructionPlanning.BusinessLogic.Services
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ProviderDto>> GetAllProvidersByPagination(int page, int pageSize)
+        public async Task<IEnumerable<ProviderDto>> GetAllPaginatedProviders(int page, int pageSize)
         {
             return await _paginationService.GetItems(page, pageSize, null);
         }
 
         /// <inheritdoc />
-        public async Task<ProviderDto?> GetProvider(Func<ProviderDto, bool> predicate)
-        {
-            return (await GetAllProviders()).FirstOrDefault(predicate);
-        }
-
-        /// <inheritdoc />
         public async Task<ProviderDto> GetProviderById(int id)
         {
-            await IsProviderExists(id);
-            var provider = await _providerRepository.GetById(id);
-            return _mapper.Map<ProviderDto>(provider);
+            var providerById = await _providerRepository.GetById(id);
+            if (providerById == null)
+            {
+                throw new ArgumentNullException(nameof(providerById), "Поставщика с таким ИД не существует.");
+            }
+
+            return _mapper.Map<ProviderDto>(providerById);
         }
 
         /// <inheritdoc />
@@ -78,8 +76,9 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task UpdateProvider(ProviderDto providerDto)
         {
-            await IsProviderExists(providerDto.Id);
+            await GetProviderById(providerDto.Id);
             await Validate(providerDto, true);
+
             var provider = _mapper.Map<Provider>(providerDto);
             await _providerRepository.Update(provider);
             await _providerRepository.Save();
@@ -115,16 +114,6 @@ namespace ConstructionPlanning.BusinessLogic.Services
                 (isUpdate && providers.Where(x => x.Name != providerName).Any(x => x.Name == providerDto.Name)))
             {
                 throw new ArgumentException("Поставщик с таким названием уже существует.");
-            }
-        }
-
-        /// <inheritdoc />
-        private async Task IsProviderExists(int id)
-        {
-            var providerById = await _providerRepository.GetById(id);
-            if (providerById == null)
-            {
-                throw new ArgumentNullException(nameof(providerById), "Поставщика с таким ИД не существует.");
             }
         }
     }

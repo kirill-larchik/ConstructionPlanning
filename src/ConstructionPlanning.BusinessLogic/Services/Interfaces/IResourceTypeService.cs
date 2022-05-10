@@ -28,11 +28,6 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         Task<int> GetTotalCount();
 
         /// <summary>
-        /// Вовзращает тип ресурса по заданному условию.
-        /// </summary>
-        Task<ResourceTypeDto?> GetResourceType(Func<ResourceTypeDto, bool> predicate);
-
-        /// <summary>
         /// Добавляет новый тип ресурса.
         /// </summary>
         Task AddResourceType(ResourceTypeDto resourceDto);

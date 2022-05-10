@@ -21,8 +21,6 @@ CREATE TABLE [Projects] (
   [DateOfCreate] datetime NOT NULL,
   [Deadline] datetime NOT NULL,
   [AllocatedAmount] int NOT NULL,
-  [CurrentAmount] int NOT NULL,
-  [TotalCost] int NOT NULL DEFAULT (0),
   [CustomerId] int
 )
 GO
@@ -30,7 +28,7 @@ GO
 CREATE TABLE [ConstructionObjects] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [Name] nvarchar(255) NOT NULL,
-  [TotalCost] int NOT NULL DEFAULT (0),
+  [Description] nvarchar(255) NOT NULL,
   [ProjectId] int
 )
 GO
@@ -40,8 +38,7 @@ CREATE TABLE [ResourcesPerObject] (
   [ConstructionObjectId] int,
   [ResourceId] int,
   [Count] int NOT NULL,
-  [UsedCount] int NOT NULL,
-  [TotalCost] int NOT NULL DEFAULT (0)
+  [UsedCount] int NOT NULL
 )
 GO
 
@@ -67,8 +64,7 @@ CREATE TABLE [Deliveries] (
   [ProviderId] int,
   [Date] datetime NOT NULL,
   [UnitCost] int NOT NULL,
-  [Count] int NOT NULL,
-  [TotalCost] int NOT NULL
+  [Count] int NOT NULL
 )
 GO
 
@@ -85,8 +81,7 @@ CREATE TABLE [Sales] (
   [Date] datetime NOT NULL,
   [ResourceId] int,
   [Customer] nvarchar(255) NOT NULL,
-  [Count] int NOT NULL,
-  [TotalCost] int NOT NULL
+  [Count] int NOT NULL
 )
 GO
 

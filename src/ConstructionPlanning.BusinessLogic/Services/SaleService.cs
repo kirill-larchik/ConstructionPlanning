@@ -31,20 +31,19 @@ namespace ConstructionPlanning.BusinessLogic.Services
         public async Task AddSale(SaleDto saleDto)
         {
             await Validate(saleDto);
+
             var sale = _mapper.Map<Sale>(saleDto);
-
-            var resource = await _resourceRepository.GetById(saleDto.ResourceId);
-            sale.TotalCost = resource.UnitCost * saleDto.Count;
-            await UpdateResourceAvaliableAmount(saleDto, resource);
-
             await _saleRepository.Add(sale);
             await _saleRepository.Save();
+
+            await UpdateAvaliableAmountForResource(saleDto);
         }
 
         /// <inheritdoc />
         public async Task DeleteSaleById(int id)
         {
-            await IsSaleExists(id);
+            await GetSaleById(id);
+
             await _saleRepository.Delete(id);
             await _saleRepository.Save();
         }
@@ -58,29 +57,27 @@ namespace ConstructionPlanning.BusinessLogic.Services
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<SaleDto>> GetAllSalesByPagination(int page, int pageSize)
+        public async Task<IEnumerable<SaleDto>> GetAllPaginatedSales(int page, int pageSize)
         {
             return await _paginationService.GetItems(page, pageSize, null, x => x.Resource);
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<SaleDto>> GetAllSalesByResourceIdWithPagination(int resourceId, int page, int pageSize)
+        public async Task<IEnumerable<SaleDto>> GetAllPaginatedSalesByResourceId(int resourceId, int page, int pageSize)
         {
             return await _paginationService.GetItems(page, pageSize, x => x.ResourceId == resourceId, x => x.Resource);
         }
 
         /// <inheritdoc />
-        public async Task<SaleDto> GetSale(Func<SaleDto, bool> predicate)
-        {
-            return (await GetAllSales()).FirstOrDefault(predicate);
-        }
-
-        /// <inheritdoc />
         public async Task<SaleDto> GetSaleById(int id)
         {
-            await IsSaleExists(id);
-            var sale = await GetSale(x => x.Id == id);
-            return _mapper.Map<SaleDto>(sale);
+            var saleById = await _saleRepository.GetById(id);
+            if (saleById == null)
+            {
+                throw new ArgumentNullException(nameof(saleById), "Продажи с таким номером не существует.");
+            }
+
+            return _mapper.Map<SaleDto>(saleById);
         }
 
         /// <inheritdoc />
@@ -97,16 +94,14 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task UpdateSale(SaleDto saleDto)
         {
-            await IsSaleExists(saleDto.Id);
+            await GetSaleById(saleDto.Id);
             await Validate(saleDto, true);
+
             var sale = _mapper.Map<Sale>(saleDto);
-
-            var resource = await _resourceRepository.GetById(saleDto.ResourceId);
-            sale.TotalCost = resource.UnitCost * saleDto.Count;
-            await UpdateResourceAvaliableAmount(saleDto, resource, true);
-
             await _saleRepository.Update(sale);
             await _saleRepository.Save();
+
+            await UpdateAvaliableAmountForResource(saleDto, true);
         }
 
         private async Task Validate(SaleDto saleDto, bool isUpdate = false)
@@ -133,8 +128,6 @@ namespace ConstructionPlanning.BusinessLogic.Services
             {
                 throw new ArgumentException("Имя заказчика не может быть пустым.");
             }
-
-
         }
 
         private async Task ValidateAvaliableAmount(SaleDto saleDto, bool isUpdate, Resource resource)
@@ -161,17 +154,9 @@ namespace ConstructionPlanning.BusinessLogic.Services
             return avaliableAmount;
         }
 
-        private async Task IsSaleExists(int id)
+        private async Task UpdateAvaliableAmountForResource(SaleDto saleDto, bool isUpdate = false)
         {
-            var saleById = await _saleRepository.GetById(id);
-            if (saleById == null)
-            {
-                throw new ArgumentNullException(nameof(saleById), "Продажи с таким номером не существует.");
-            }
-        }
-
-        private async Task UpdateResourceAvaliableAmount(SaleDto saleDto, Resource resource, bool isUpdate = false)
-        {
+            var resource = await _resourceRepository.GetById(saleDto.ResourceId);
             if (isUpdate)
             {
                 var sale = await _saleRepository.GetById(saleDto.Id);

@@ -15,12 +15,12 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// <summary>
         /// Возвращает все ресурсы с применением пагинации.
         /// </summary>
-        Task<IEnumerable<ResourceDto>> GetAllResourcesByPagination(int page, int pageSize);
+        Task<IEnumerable<ResourceDto>> GetAllPaginatedResources(int page, int pageSize);
 
         /// <summary>
         /// Возвращает все ресурсы по типу ресурса с применением пагинации.
         /// </summary>
-        Task<IEnumerable<ResourceDto>> GetAllResourcesByResourceTypeIdWithPagination(int resourceTypeId, int page, int pageSize);
+        Task<IEnumerable<ResourceDto>> GetAllPaginatedResourcesByResourceTypeId(int resourceTypeId, int page, int pageSize);
 
         /// <summary>
         /// Возвращает общее количество всех ресурсов.
@@ -36,11 +36,6 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// Вовзращает ресурс по заданному ИД.
         /// </summary>
         Task<ResourceDto> GetResourceById(int id);
-
-        /// <summary>
-        /// Вовзращает ресурс по заданному условию.
-        /// </summary>
-        Task<ResourceDto> GetResource(Func<ResourceDto, bool> predicate);
 
         /// <summary>
         /// Добавляет новый ресурс.

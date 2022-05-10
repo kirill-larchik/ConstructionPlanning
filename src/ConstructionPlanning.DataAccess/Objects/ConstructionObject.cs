@@ -16,11 +16,6 @@ namespace ConstructionPlanning.DataAccess.Objects
         public string? Name { get; set; }
 
         /// <summary>
-        /// Общая сумма затрат.
-        /// </summary>
-        public int TotalCost { get; set; }
-
-        /// <summary>
         /// ИД проекта.
         /// </summary>
         public int ProjectId { get; set; }

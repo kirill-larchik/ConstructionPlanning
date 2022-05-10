@@ -15,7 +15,7 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// <summary>
         /// Возвращает всех поставщиков с применением пагинации.
         /// </summary>
-        Task<IEnumerable<ProviderDto>> GetAllProvidersByPagination(int page, int pageSize);
+        Task<IEnumerable<ProviderDto>> GetAllPaginatedProviders(int page, int pageSize);
 
         /// <summary>
         /// Возвращает общее количество всех поставщиков.
@@ -26,11 +26,6 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// Вовзращает всех поставщиков по ИД.
         /// </summary>
         Task<ProviderDto> GetProviderById(int id);
-
-        /// <summary>
-        /// Вовзращает поставщика по заданному условию.
-        /// </summary>
-        Task<ProviderDto?> GetProvider(Func<ProviderDto, bool> predicate);
 
         /// <summary>
         /// Добавляет нового поставщика.

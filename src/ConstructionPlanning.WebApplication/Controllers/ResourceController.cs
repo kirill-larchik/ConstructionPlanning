@@ -30,7 +30,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Index(int page = 1)
         {
-            var resources = await _resourceService.GetAllResourcesByPagination(page, Constants.PageSize);
+            var resources = await _resourceService.GetAllPaginatedResources(page, Constants.PageSize);
             var pageViewModel = new PageViewModel(await _resourceService.GetTotalCount(), page, Constants.PageSize);
             var indexViewModel = new ResourceIndexViewModel
             {
@@ -55,7 +55,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
             }
 
             var resourceType = await _resourceTypeService.GetResourceTypeById(resourceTypeId.Value);
-            var resources = await _resourceService.GetAllResourcesByResourceTypeIdWithPagination(resourceTypeId.Value, page, Constants.PageSize);
+            var resources = await _resourceService.GetAllPaginatedResourcesByResourceTypeId(resourceTypeId.Value, page, Constants.PageSize);
             var pageViewModel = new PageViewModel(await _resourceService.GetTotalCountByResourceTypeId(resourceTypeId.Value), page, Constants.PageSize);
             var indexViewModel = new ResourceByTypeViewModel
             {

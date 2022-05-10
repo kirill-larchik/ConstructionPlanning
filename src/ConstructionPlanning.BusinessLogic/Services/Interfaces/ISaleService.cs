@@ -15,12 +15,12 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// <summary>
         /// Возвращает все продажи с применением пагинации.
         /// </summary>
-        Task<IEnumerable<SaleDto>> GetAllSalesByPagination(int page, int pageSize);
+        Task<IEnumerable<SaleDto>> GetAllPaginatedSales(int page, int pageSize);
 
         /// <summary>
         /// Возвращает все продажи ресурса с применением пагинации.
         /// </summary>
-        Task<IEnumerable<SaleDto>> GetAllSalesByResourceIdWithPagination(int resourceId, int page, int pageSize);
+        Task<IEnumerable<SaleDto>> GetAllPaginatedSalesByResourceId(int resourceId, int page, int pageSize);
 
         /// <summary>
         /// Возвращает общее количество всех продаж.
@@ -36,11 +36,6 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// Вовзращает продажу по заданному ИД.
         /// </summary>
         Task<SaleDto> GetSaleById(int id);
-
-        /// <summary>
-        /// Вовзращает продажу по заданному условию.
-        /// </summary>
-        Task<SaleDto> GetSale(Func<SaleDto, bool> predicate);
 
         /// <summary>
         /// Добавляет новую продажу.

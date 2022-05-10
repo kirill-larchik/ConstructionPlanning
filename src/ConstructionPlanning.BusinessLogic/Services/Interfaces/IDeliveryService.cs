@@ -15,17 +15,17 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// <summary>
         /// Возвращает все поставки с применением пагинации.
         /// </summary>
-        Task<IEnumerable<DeliveryDto>> GetAllDeliveriesByPagination(int page, int pageSize);
+        Task<IEnumerable<DeliveryDto>> GetAllPaginatedDeliveries(int page, int pageSize);
 
         /// <summary>
         /// Возвращает все поставки по заказчику с применением пагинации.
         /// </summary>
-        Task<IEnumerable<DeliveryDto>> GetAllDeliveriesByProviderIdWithPagination(int providerId, int page, int pageSize);
+        Task<IEnumerable<DeliveryDto>> GetAllPaginatedDeliveriesByProviderId(int providerId, int page, int pageSize);
 
         /// <summary>
         /// Возвращает все поставки по ресурсу с применением пагинации.
         /// </summary>
-        Task<IEnumerable<DeliveryDto>> GetAllDeliveriesByResourceIdWithPagination(int resourceId, int page, int pageSize);
+        Task<IEnumerable<DeliveryDto>> GetAllPaginatedDeliveriesByResourceId(int resourceId, int page, int pageSize);
 
         /// <summary>
         /// Возвращает общее количество всех поставок.
@@ -46,11 +46,6 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// Вовзращает поставку по заданному ИД.
         /// </summary>
         Task<DeliveryDto> GetDeliveryById(int id);
-
-        /// <summary>
-        /// Вовзращает поставку по заданному условию.
-        /// </summary>
-        Task<DeliveryDto> GetDelivery(Func<DeliveryDto, bool> predicate);
 
         /// <summary>
         /// Добавляет новую поставку.

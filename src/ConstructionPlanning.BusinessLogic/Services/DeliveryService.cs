@@ -34,19 +34,18 @@ namespace ConstructionPlanning.BusinessLogic.Services
         public async Task AddDelivery(DeliveryDto deliveryDto)
         {
             await Validate(deliveryDto);
+
             var delivery = _mapper.Map<Delivery>(deliveryDto);
-
-            delivery.TotalCost = deliveryDto.UnitCost * deliveryDto.Count;
-            await UpdateResourceAvaliableAmount(deliveryDto);
-
             await _deliveryRepository.Add(delivery);
             await _deliveryRepository.Save();
+
+            await UpdateResourceAvaliableAmount(deliveryDto);
         }
 
         /// <inheritdoc />
         public async Task DeleteDeliveryById(int id)
         {
-            await IsDeliveryExists(id);
+            await GetDeliveryById(id);
             await _deliveryRepository.Delete(id);
             await _deliveryRepository.Save();
         }
@@ -55,43 +54,40 @@ namespace ConstructionPlanning.BusinessLogic.Services
         public async Task<IEnumerable<DeliveryDto>> GetAllDeliveries()
         {
             var deliveries = _deliveryRepository.GetAll(x => x.Provider, x => x.Resource).AsEnumerable();
-
             return _mapper.Map<IEnumerable<DeliveryDto>>(deliveries);
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<DeliveryDto>> GetAllDeliveriesByPagination(int page, int pageSize)
+        public async Task<IEnumerable<DeliveryDto>> GetAllPaginatedDeliveries(int page, int pageSize)
         {
             return await _paginationService.GetItems(page, pageSize, null,
                 x => x.Provider, x => x.Resource);
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<DeliveryDto>> GetAllDeliveriesByProviderIdWithPagination(int providerId, int page, int pageSize)
+        public async Task<IEnumerable<DeliveryDto>> GetAllPaginatedDeliveriesByProviderId(int providerId, int page, int pageSize)
         {
             return await _paginationService.GetItems(page, pageSize, x => x.ProviderId == providerId,
                 x => x.Provider, x => x.Resource);
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<DeliveryDto>> GetAllDeliveriesByResourceIdWithPagination(int resourceId, int page, int pageSize)
+        public async Task<IEnumerable<DeliveryDto>> GetAllPaginatedDeliveriesByResourceId(int resourceId, int page, int pageSize)
         {
             return await _paginationService.GetItems(page, pageSize, x => x.ResourceId == resourceId,
                 x => x.Provider, x => x.Resource);
         }
 
         /// <inheritdoc />
-        public async Task<DeliveryDto> GetDelivery(Func<DeliveryDto, bool> predicate)
-        {
-            return (await GetAllDeliveries()).FirstOrDefault(predicate);
-        }
-
-        /// <inheritdoc />
         public async Task<DeliveryDto> GetDeliveryById(int id)
         {
-            await IsDeliveryExists(id);
-            var delivery = await GetDelivery(x => x.Id == id);
-            return _mapper.Map<DeliveryDto>(delivery);
+            var deliveryById = await _deliveryRepository.GetById(id);
+            if (deliveryById == null)
+            {
+                throw new ArgumentNullException(nameof(deliveryById), "Поставки с таким ИД не существует.");
+            }
+
+            return _mapper.Map<DeliveryDto>(deliveryById);
         }
 
         /// <inheritdoc />
@@ -114,15 +110,14 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task UpdateDelivery(DeliveryDto deliveryDto)
         {
-            await IsDeliveryExists(deliveryDto.Id);
+            await GetDeliveryById(deliveryDto.Id);
             await Validate(deliveryDto);
+
             var delivery = _mapper.Map<Delivery>(deliveryDto);
-
-            delivery.TotalCost = delivery.UnitCost * delivery.Count;
-            await UpdateResourceAvaliableAmount(deliveryDto, true);
-
             await _deliveryRepository.Update(delivery);
             await _deliveryRepository.Save();
+
+            await UpdateResourceAvaliableAmount(deliveryDto, true);
         }
 
         private async Task Validate(DeliveryDto deliveryDto)
@@ -150,15 +145,6 @@ namespace ConstructionPlanning.BusinessLogic.Services
             if (deliveryDto.Count <= 0)
             {
                 throw new ArgumentException("Количество ресурсов должно быть больше нуля.");
-            }
-        }
-
-        private async Task IsDeliveryExists(int id)
-        {
-            var deliveryById = await _deliveryRepository.GetById(id);
-            if (deliveryById == null)
-            {
-                throw new ArgumentNullException(nameof(deliveryById), "Поставки с таким ИД не существует.");
             }
         }
 

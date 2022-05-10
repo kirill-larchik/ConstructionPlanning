@@ -32,16 +32,6 @@ namespace ConstructionPlanning.DataAccess.Objects
         public int AllocatedAmount { get; set; }
 
         /// <summary>
-        /// Текущее количество средств.
-        /// </summary>
-        public int CurrentAmount { get; set; }
-
-        /// <summary>
-        /// Общая сумма затрат.
-        /// </summary>
-        public int TotalCost { get; set; }
-
-        /// <summary>
         /// ИД заказчика.
         /// </summary>
         public int CustomerId { get; set; }

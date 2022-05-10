@@ -26,7 +26,7 @@ namespace ConstructionPlanning.WebApplication.Controllers
 
         public async Task<ActionResult> Index(int page = 1)
         {
-            var providers = await _providerService.GetAllProvidersByPagination(page, Constants.PageSize);
+            var providers = await _providerService.GetAllPaginatedProviders(page, Constants.PageSize);
             var pageViewModel = new PageViewModel(await _providerService.GetTotalCount(), page, Constants.PageSize);
             var indexViewModel = new ProviderIndexViewModel
             {
