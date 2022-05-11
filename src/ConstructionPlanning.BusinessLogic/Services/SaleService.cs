@@ -71,7 +71,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<SaleDto> GetSaleById(int id)
         {
-            var saleById = await _saleRepository.GetById(id);
+            var saleById = await _saleRepository.GetById(id, x => x.Resource);
             if (saleById == null)
             {
                 throw new ArgumentNullException(nameof(saleById), "Продажи с таким номером не существует.");
@@ -119,7 +119,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
 
             await ValidateAvaliableAmount(saleDto, isUpdate, resource);
 
-            if (saleDto.Date == default)
+            if (saleDto.Date == default || (!isUpdate && saleDto.Date.ToUniversalTime() <= DateTime.UtcNow))
             {
                 throw new ArgumentException("Неверная дата продажи.");
             }

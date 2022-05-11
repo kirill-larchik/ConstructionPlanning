@@ -30,12 +30,12 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// <summary>
         /// Добавляет новый ресурс для объекта.
         /// </summary>
-        Task AddResourcePerObject(ResourcePerObjectDto ResourcePerObjectDto);
+        Task AddResourcePerObject(ResourcePerObjectDto resourcePerObjectDto);
 
         /// <summary>
         /// Обновляет ресурс для объекта.
         /// </summary>
-        Task UpdateResourcePerObject(ResourcePerObjectDto ResourcePerObjectDto);
+        Task UpdateResourcePerObject(ResourcePerObjectDto resourcePerObjectDto);
 
         /// <summary>
         /// Удаляет ресурс для объекта по заданному ИД.

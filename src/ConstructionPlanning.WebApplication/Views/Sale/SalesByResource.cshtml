@@ -1,17 +1,12 @@
 ﻿@using ConstructionPlanning.WebApplication.Models.Sale
 @model ConstructionPlanning.WebApplication.Models.Sale.SaleByResourceViewModel
 
-@{
-    ViewData["Title"] = "Список продаж";
-}
-
 <h1>Список продаж по ресурсу "@Model.ResourceName"</h1>
-
 <p>
-    @Html.ActionLink("Назад", "Details", "Resource", new { id = Model.ResourceId })
+    @Html.ActionLink("Назад", "Details", "Resource", new { id = Model.ResourceId }, new { @class="btn btn-secondary" })
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)
@@ -60,8 +55,7 @@
 </table>
 @if (Model.PageViewModel.HasPreviousPage)
 {
-    <a asp-action="GetSalesByResourceId"
-       asp-route-resourceId="@Model.ResourceId"
+    <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
        class="btn btn-outline-dark">
         <i class="glyphicon glyphicon-chevron-left"></i>
@@ -70,8 +64,7 @@
 }
 @if (Model.PageViewModel.HasNextPage)
 {
-    <a asp-action="GetSalesByResourceId"
-       asp-route-resourceId="@Model.ResourceId"
+    <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
        class="btn btn-outline-dark">
         Вперед

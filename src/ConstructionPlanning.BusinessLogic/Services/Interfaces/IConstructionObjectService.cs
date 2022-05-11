@@ -30,12 +30,12 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         /// <summary>
         /// Добавляет новый строительный объект.
         /// </summary>
-        Task AddConstructionObject(ConstructionObjectDto ConstructionObjectDto);
+        Task AddConstructionObject(ConstructionObjectDto constructionObjectDto);
 
         /// <summary>
         /// Обновляет строительный объект.
         /// </summary>
-        Task UpdateConstructionObject(ConstructionObjectDto ConstructionObjectDto);
+        Task UpdateConstructionObject(ConstructionObjectDto constructionObjectDto);
 
         /// <summary>
         /// Удаляет строительный объект по заданному ИД.

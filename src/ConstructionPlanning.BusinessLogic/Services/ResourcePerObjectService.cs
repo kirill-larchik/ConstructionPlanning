@@ -66,7 +66,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             var resourcePerObjectById = await _resourcePerObjectRepository.GetById(id);
             if (resourcePerObjectById == null)
             {
-                throw new ArgumentNullException(nameof(resourcePerObjectById), "Поставщика с таким ИД не существует.");
+                throw new ArgumentNullException(nameof(resourcePerObjectById), "Ресусра для объекта с таким ИД не существует.");
             }
 
             return _mapper.Map<ResourcePerObjectDto>(resourcePerObjectById);

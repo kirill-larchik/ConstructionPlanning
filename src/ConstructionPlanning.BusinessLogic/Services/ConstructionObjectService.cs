@@ -69,7 +69,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             var constructionObjectById = await _constructionObjectRepository.GetById(id);
             if (constructionObjectById == null)
             {
-                throw new ArgumentNullException(nameof(constructionObjectById), "Поставщика с таким ИД не существует.");
+                throw new ArgumentNullException(nameof(constructionObjectById), "Строительного объекта с таким ИД не существует.");
             }
 
             var constructionObject = _mapper.Map<ConstructionObjectDto>(constructionObjectById);
