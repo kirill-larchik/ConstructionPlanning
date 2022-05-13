@@ -1,6 +1,10 @@
 ﻿@using ConstructionPlanning.WebApplication.Models.Sale
 @model ConstructionPlanning.WebApplication.Models.Sale.SaleByResourceViewModel
 
+@{
+    ViewData["Title"] = "Список продаж";
+}
+
 <h1>Список продаж по ресурсу "@Model.ResourceName"</h1>
 <p>
     @Html.ActionLink("Назад", "Details", "Resource", new { id = Model.ResourceId }, new { @class="btn btn-secondary" })

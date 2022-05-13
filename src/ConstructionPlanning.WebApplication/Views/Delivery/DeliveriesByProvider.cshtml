@@ -6,12 +6,11 @@
 }
 
 <h1>Список поставок от поставщика "@Model.ProviderName"</h1>
-
 <p>
-    @Html.ActionLink("Назад", "Details", "Provider", new { id = Model.ProviderId })
+    @Html.ActionLink("Назад", "Details", "Provider", new { id = Model.ProviderId }, new { @class="btn btn-secondary" })
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)

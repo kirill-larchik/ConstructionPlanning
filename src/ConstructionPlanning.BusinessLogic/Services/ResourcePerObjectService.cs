@@ -17,13 +17,13 @@ namespace ConstructionPlanning.BusinessLogic.Services
         private readonly IPaginationService<ResourcePerObject, ResourcePerObjectDto> _paginationService;
 
         /// <inheritdoc />
-        public ResourcePerObjectService(IRepository<ResourcePerObject> resourceTypeRepository,
+        public ResourcePerObjectService(IRepository<ResourcePerObject> resourcePerObjectRepository,
             IRepository<Resource> resourceRepository,
             IRepository<ConstructionObject> constructionObjectRepository,
             IMapper mapper,
             IPaginationService<ResourcePerObject, ResourcePerObjectDto> paginationService)
         {
-            _resourcePerObjectRepository = resourceTypeRepository;
+            _resourcePerObjectRepository = resourcePerObjectRepository;
             _resourceRepository = resourceRepository;
             _constructionObjectRepository = constructionObjectRepository;
             _mapper = mapper;

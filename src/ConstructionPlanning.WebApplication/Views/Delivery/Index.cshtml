@@ -8,11 +8,11 @@
 <h1>Список поставок</h1>
 
 <p>
-    <a asp-action="Create">Добавить новую поставку</a> | 
-    <a asp-action="Export">Экспортировать данные</a>
+    <a asp-action="Create" class="btn btn-primary btn-sm">Добавить новую поставку</a> | 
+    <a asp-action="Export" class="btn btn-primary btn-sm">Экспортировать данные</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)
@@ -44,10 +44,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TotalCost)
             </td>
-            <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Подробная информация", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+            <td class="float-right">
+                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Подробная информация", "Details", new { id=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Удалить", "Delete", new { id=item.Id }, new { @class="btn btn-danger btn-sm" })
             </td>
         </tr>
 }

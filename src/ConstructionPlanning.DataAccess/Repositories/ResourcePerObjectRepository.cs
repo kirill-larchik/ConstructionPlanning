@@ -4,7 +4,7 @@ using ConstructionPlanning.DataAccess.Objects;
 namespace ConstructionPlanning.DataAccess.Repositories
 {
     /// <inheritdoc />
-    internal class ResourcePerObjectRepository : BaseRepository<ResourcePerObject>
+    public class ResourcePerObjectRepository : BaseRepository<ResourcePerObject>
     {
         /// <inheritdoc />
         public ResourcePerObjectRepository(ConstructionPlanningDbContext context)

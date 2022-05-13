@@ -7,10 +7,10 @@
 <h1>Список поставщиков</h1>
 
 <p>
-    <a asp-action="Create">Добавить нового поставщика</a>
+    <a asp-action="Create" class="btn btn-primary btn-sm">Добавить нового поставщика</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Name)
@@ -24,10 +24,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Подробная информация", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+            <td class="float-right">
+                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Подробная информация", "Details", new { id=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Удалить", "Delete", new { id=item.Id }, new { @class="btn btn-danger btn-sm" })
             </td>
         </tr>
 }

@@ -9,27 +9,44 @@
 <h4>Поставщик</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="Id" class="form-control" hidden/>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="form-group row">
+                <label asp-for="Name" class="col-sm-4 col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Name" class="form-control" />
+                    <div class="text-center">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
+            <div class="form-group row">
+                <label asp-for="Address" class="col-sm-4 col-form-label"></label>
+                <div class="col-sm-8">
                 <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+                    <div class="text-center">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
+            <div class="form-group row">
+                <label asp-for="Phone" class="col-sm-4 col-form-label"></label>
+                <div class="col-sm-8">
                 <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
+                    <div class="text-center">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            <div class="form-group row">
+                <div class="col">
+                    <a asp-action="Index" class="btn btn-secondary float-left">Назад</a>
+                </div>
+                <div class="col">
+                    <input type="submit" value="Редактировать" class="btn btn-primary float-right" />
+                </div>
             </div>
         </form>
     </div>

@@ -6,26 +6,26 @@
 }
 
 <div class="row">
-    <div class="col-md-4 mx-auto text-center">
+    <div class="col-md-6 mx-auto text-center">
         <h1>@ViewData["Title"]</h1><br />
         <section>
             <form id="account" method="post">
                 <h4>Используйте данные учетной записи, чтобы войти</h4>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
+                <div class="form-group w-75 mx-auto text-center">
                     <label asp-for="Input.Email" class="form-label"></label>
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group w-75 mx-auto text-center">
                     <label asp-for="Input.Password" class="form-label"></label>
                     <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <br />
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Войти</button>
+                    <button id="login-submit" type="submit" class="w-75 btn btn-lg btn-primary">Войти</button>
                 </div>
             </form>
         </section>

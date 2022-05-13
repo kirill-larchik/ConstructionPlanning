@@ -8,10 +8,10 @@
 <h1>Список поставок по ресурсу "@Model.ResourceName"</h1>
 
 <p>
-    @Html.ActionLink("Назад", "Details", "Resource", new { id = Model.ResourceId })
+    @Html.ActionLink("Назад", "Details", "Provider", new { id = Model.ResourceName }, new { @class="btn btn-secondary" })
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)

@@ -16,12 +16,12 @@ namespace ConstructionPlanning.BusinessLogic.Services
         private readonly IPaginationService<Project, ProjectDto> _paginationService;
 
         /// <inheritdoc />
-        public ProjectService(IRepository<Project> resourceTypeRepository,
+        public ProjectService(IRepository<Project> projectRepository,
             IRepository<Customer> customerRepository,
             IMapper mapper,
             IPaginationService<Project, ProjectDto> paginationService)
         {
-            _projectRepository = resourceTypeRepository;
+            _projectRepository = projectRepository;
             _customerRepository = customerRepository;
             _mapper = mapper;
             _paginationService = paginationService;

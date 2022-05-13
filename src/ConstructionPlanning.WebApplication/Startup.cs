@@ -1,12 +1,6 @@
-using ConstructionPlanning.BusinessLogic.DTO;
+using ConstructionPlanning.BusinessLogic.DI;
 using ConstructionPlanning.BusinessLogic.Mappings;
-using ConstructionPlanning.BusinessLogic.Services;
-using ConstructionPlanning.BusinessLogic.Services.Export;
-using ConstructionPlanning.BusinessLogic.Services.Interfaces;
-using ConstructionPlanning.BusinessLogic.Services.Pagination;
 using ConstructionPlanning.DataAccess.DbContext;
-using ConstructionPlanning.DataAccess.Objects;
-using ConstructionPlanning.DataAccess.Repositories;
 using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Filters;
 using ConstructionPlanning.WebApplication.Mappings;
@@ -48,27 +42,7 @@ namespace ConstructionPlanning.WebApplication
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAutoMapper(typeof(DtoMappingProfile), typeof(ViewModelMappingProfile));
-
-            services.AddTransient<IRepository<Resource>, ResourceRepository>();
-            services.AddTransient<IRepository<ResourceType>, ResourceTypeRepository>();
-            services.AddTransient<IRepository<Provider>, ProviderRepository>();
-            services.AddTransient<IRepository<Delivery>, DeliveryRepository>();
-            services.AddTransient<IRepository<Sale>, SaleRepository>();
-
-            services.AddTransient<IPaginationService<Resource, ResourceDto>, ResourcePaginationService>();
-            services.AddTransient<IPaginationService<ResourceType, ResourceTypeDto>, ResourceTypePaginationService>();
-            services.AddTransient<IPaginationService<Provider, ProviderDto>, ProviderPaginationService>();
-            services.AddTransient<IPaginationService<Delivery, DeliveryDto>, DeliveryPaginationService>();
-            services.AddTransient<IPaginationService<Sale, SaleDto>, SalePaginationService>();
-
-            services.AddTransient<IResourceTypeService, ResourceTypeService>();
-            services.AddTransient<IResourceService, ResourceService>();
-            services.AddTransient<IProviderService, ProviderService>();
-            services.AddTransient<IDeliveryService, DeliveryService>();
-            services.AddTransient<ISaleService, SaleService>();
-
-            services.AddTransient<IExcelExportService<DeliveryDto>, DeliveryExportService>();
-            services.AddTransient<IExcelExportService<SaleDto>, SaleExportService>();
+            services.AddBusinessLogicServices();
 
             services.AddControllersWithViews(config => config.Filters.Add(typeof(CustomExceptionFilter)));
         }

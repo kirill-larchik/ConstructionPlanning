@@ -5,7 +5,7 @@ namespace ConstructionPlanning.WebApplication.Models.Sale
 {
     public class SaleViewModel
     {
-        [Display(Name = "Номер поставки")]
+        [Display(Name = "Номер продажи")]
         public int Id { get; set; }
 
         [Display(Name = "Дата продажи")]

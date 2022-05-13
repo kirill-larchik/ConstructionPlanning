@@ -6,12 +6,9 @@ GO
 
 CREATE TABLE [Customers] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [FirstName] nvarchar(255) NOT NULL,
-  [LastName] nvarchar(255) NOT NULL,
-  [MiddleName] nvarchar(255) NOT NULL,
+  [Name] nvarchar(255) NOT NULL,
+  [Description] nvarchar(255) NOT NULL,
   [Phone] nvarchar(255) NOT NULL,
-  [Organization] nvarchar(255),
-  [Address] nvarchar(255)
 )
 GO
 
