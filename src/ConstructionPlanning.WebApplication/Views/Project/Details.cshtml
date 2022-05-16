@@ -1,0 +1,66 @@
+﻿@model ConstructionPlanning.WebApplication.Models.Project.ProjectViewModel
+
+@{
+    ViewData["Title"] = "Подробная информация о проекте";
+}
+
+<h1>Подробная информация о проекте</h1>
+<h4>Проект</h4>
+<hr />
+<div class="col-md-8">
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.DateOfCreate)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.DateOfCreate)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Deadline)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Deadline)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.AllocatedAmount)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.AllocatedAmount)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+    </dl>
+</div>
+
+<div class="row">
+    <div class="col">
+        <a asp-action="Index" class="btn btn-secondary float-left">Назад</a> &nbsp;|
+        @Html.ActionLink("#", "#", "#", new { projectId = Model.Id }, new { @class="btn btn-primary" })
+    </div>
+</div>
+
+<div class="mt-5">
+    @await Html.PartialAsync("_ConstractionObjects", Model)
+</div>

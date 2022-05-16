@@ -29,7 +29,13 @@ namespace ConstructionPlanning.BusinessLogic.Mappings
             
             CreateMap<ResourcePerObjectDto, ResourcePerObject>();
             CreateMap<ConstructionObject, ConstructionObjectDto>().ReverseMap();
-            CreateMap<Project, ProjectDto>().ReverseMap();
+
+            CreateMap<ProjectDto, Project>()
+                .ForMember(x => x.Deadline, y => y.MapFrom(src => src.Deadline.Date));
+            CreateMap<Project, ProjectDto>()
+                .ForMember(x => x.DateOfCreate, y => y.MapFrom(src => src.DateOfCreate.Date))
+                .ForMember(x => x.Deadline, y => y.MapFrom(src => src.Deadline.Date));
+
             CreateMap<Customer, CustomerDto>().ReverseMap();
         }
 

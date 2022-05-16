@@ -1,0 +1,39 @@
+﻿@model ConstructionPlanning.WebApplication.Models.Project.ProjectViewModel
+
+<div class="container">
+<h3>Список строительных объектов</h3>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary btn-sm">Добавить</a>
+</p>
+<table class="table table-striped table-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalCost)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ConstructionObjects) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCost)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

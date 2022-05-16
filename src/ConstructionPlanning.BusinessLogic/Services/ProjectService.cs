@@ -32,6 +32,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         {
             await Validate(projectDto);
             var mappedProject = _mapper.Map<Project>(projectDto);
+            mappedProject.DateOfCreate = DateTime.Now.Date;
             await _projectRepository.Add(mappedProject);
             await _projectRepository.Save();
         }
@@ -57,7 +58,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<IEnumerable<ProjectDto>> GetAllPaginatedProjects(int page, int pageSize)
         {
-            var projects = await _paginationService.GetItems(page, pageSize, null);
+            var projects = await _paginationService.GetItems(page, pageSize, null, x => x.Customer);
             FillTotalCost(projects);
 
             return projects;
@@ -66,7 +67,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<ProjectDto> GetProjectById(int id)
         {
-            var projectById = await _projectRepository.GetById(id);
+            var projectById = await _projectRepository.GetById(id, x => x.Customer);
             if (projectById == null)
             {
                 throw new ArgumentNullException(nameof(projectById), "Проекта с таким ИД не существует.");
@@ -85,12 +86,25 @@ namespace ConstructionPlanning.BusinessLogic.Services
         }
 
         /// <inheritdoc />
+        public async Task<IEnumerable<ProjectDto>> GetAllPaginatedProjectsByCustomerId(int customerId, int page, int pageSize)
+        {
+            return await _paginationService.GetItems(page, pageSize, x => x.CustomerId == customerId, x => x.Customer);
+        }
+
+        /// <inheritdoc />
+        public async Task<int> GetTotalCountByCustomerId(int customerId)
+        {
+            return await _projectRepository.GetAll().Where(x => x.CustomerId == customerId).CountAsync();
+        }
+
+        /// <inheritdoc />
         public async Task UpdateProject(ProjectDto projectDto)
         {
-            await GetProjectById(projectDto.Id);
+            var startDate = (await GetProjectById(projectDto.Id)).DateOfCreate;
             await Validate(projectDto, true);
 
             var project = _mapper.Map<Project>(projectDto);
+            project.DateOfCreate = startDate;
             await _projectRepository.Update(project);
             await _projectRepository.Save();
         }

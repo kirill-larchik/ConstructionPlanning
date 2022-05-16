@@ -2,7 +2,9 @@
 using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Models;
+using ConstructionPlanning.WebApplication.Models.Customer;
 using ConstructionPlanning.WebApplication.Models.Delivery;
+using ConstructionPlanning.WebApplication.Models.Project;
 using ConstructionPlanning.WebApplication.Models.Provider;
 using ConstructionPlanning.WebApplication.Models.Resource;
 using ConstructionPlanning.WebApplication.Models.ResourceType;
@@ -47,6 +49,17 @@ namespace ConstructionPlanning.WebApplication.Mappings
                 .ReverseMap();
             CreateMap<SaleCreateViewModel, SaleDto>().ReverseMap();
             CreateMap<SaleEditViewModel, SaleDto>().ReverseMap();
+
+            CreateMap<CustomerDto, CustomerViewModel>().ReverseMap();
+            CreateMap<CustomerCreateViewModel, CustomerDto>().ReverseMap();
+            CreateMap<CustomerEditViewModel, CustomerDto>().ReverseMap();
+
+            CreateMap<ProjectDto, ProjectViewModel>()
+                .ForMember(x => x.CustomerName, y => y.MapFrom(src => src.Customer != null ? src.Customer.Name : Constants.NoInfoString))
+                .ReverseMap();
+            CreateMap<ProjectCreateViewModel, ProjectDto>().ReverseMap();
+            CreateMap<ProjectEditViewModel, ProjectDto>().ReverseMap();
+            CreateMap<SelectListModel, CustomerDto>().ReverseMap();
         }
     }
 }

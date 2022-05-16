@@ -99,7 +99,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             }
 
             var regex = new Regex("^\\s*\\+?\\s*([0-9][\\s-]*){9,}$");
-            if (string.IsNullOrEmpty(providerDto.Phone) && regex.IsMatch(providerDto.Phone))
+            if (string.IsNullOrEmpty(providerDto.Phone) || !regex.IsMatch(providerDto.Phone))
             {
                 throw new ArgumentException("Неверный телефон поставщика.");
             }

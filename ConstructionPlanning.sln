@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConstructionPlanning.DataAc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConstructionPlanning.BusinessLogic", "src\ConstructionPlanning.BusinessLogic\ConstructionPlanning.BusinessLogic.csproj", "{7A764D02-D1C3-43FF-8B46-6FD773C93514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructionPlanning.WebApplication", "src\ConstructionPlanning.WebApplication\ConstructionPlanning.WebApplication.csproj", "{BD98653B-D9F9-4F83-B481-A690587AE026}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConstructionPlanning.WebApplication", "src\ConstructionPlanning.WebApplication\ConstructionPlanning.WebApplication.csproj", "{BD98653B-D9F9-4F83-B481-A690587AE026}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Система управления ресурсами.</title>
+    <title>@ViewData["Title"] - Система управления ресурсами</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body class="bg-light">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
@@ -27,8 +27,8 @@
                                     Работа с проектами
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="#" asp-action="Index">Проекты</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="#" asp-action="Index">Заказчики</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Проекты</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Заказчики</a>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="#" asp-action="Index">Строительные объекты</a>
                                 </div>
                             </div>

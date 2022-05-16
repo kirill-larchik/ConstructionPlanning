@@ -1,0 +1,50 @@
+﻿@model ConstructionPlanning.WebApplication.Models.Customer.CustomerViewModel
+
+@{
+    ViewData["Title"] = "Удаление заказчика";
+}
+
+<h1>Удаление заказчика</h1>
+<h3>Вы действительно хотите удалить данныого заказчика?</h3>
+<h4>Заказчик</h4>
+<hr />
+<div class="col-md-8">
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+    </dl>
+    
+    <div class="row">
+        <div class="col">
+            <a asp-action="Index" class="btn btn-secondary float-left w-25">Назад</a>
+        </div>
+        <div class="col">
+            <form asp-action="Delete">
+                <input type="submit" value="Удалить" class="btn btn-danger float-right w-25" />
+            </form>
+        </div>
+    </div>
+
+</div>

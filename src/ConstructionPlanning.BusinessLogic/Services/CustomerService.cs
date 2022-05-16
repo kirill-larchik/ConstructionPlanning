@@ -4,6 +4,7 @@ using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.DataAccess.Objects;
 using ConstructionPlanning.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace ConstructionPlanning.BusinessLogic.Services
 {
@@ -100,9 +101,10 @@ namespace ConstructionPlanning.BusinessLogic.Services
                 throw new ArgumentException("Дополнительная информация о заказчике не может быть пустой.");
             }
 
-            if (string.IsNullOrEmpty(customerDto.Phone))
+            var regex = new Regex("^\\s*\\+?\\s*([0-9][\\s-]*){9,}$");
+            if (string.IsNullOrEmpty(customerDto.Phone) || !regex.IsMatch(customerDto.Phone))
             {
-                throw new ArgumentException("Телефон заказчика не может быть пустым.");
+                throw new ArgumentException("Неверный телефон заказчика.");
             }
         }
 
@@ -113,7 +115,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             if ((!isUpdate && customers.Any(x => x.Name == customerDto.Name)) ||
                 (isUpdate && customers.Where(x => x.Name != constractionObjectName).Any(x => x.Name == customerDto.Name)))
             {
-                throw new ArgumentException("Заказчик с таким названием уже существует для проекта.");
+                throw new ArgumentException("Заказчик с таким именем уже существует.");
             }
         }
     }

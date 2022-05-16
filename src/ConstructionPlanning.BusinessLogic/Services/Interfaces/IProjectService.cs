@@ -18,9 +18,19 @@ namespace ConstructionPlanning.BusinessLogic.Services.Interfaces
         Task<IEnumerable<ProjectDto>> GetAllPaginatedProjects(int page, int pageSize);
 
         /// <summary>
-        /// Возвращает общее количество всех проектов.
+        /// Возвращает все ресурсы по типу ресурса с применением пагинации.
+        /// </summary>
+        Task<IEnumerable<ProjectDto>> GetAllPaginatedProjectsByCustomerId(int customerId, int page, int pageSize);
+
+        /// <summary>
+        /// Возвращает общее количество всех ресурсов.
         /// </summary>
         Task<int> GetTotalCount();
+
+        /// <summary>
+        /// Возвращает общее количество всех ресурсов по типу ресурса.
+        /// </summary>
+        Task<int> GetTotalCountByCustomerId(int customerId);
 
         /// <summary>
         /// Вовзращает проект по ИД.

@@ -1,44 +1,44 @@
-﻿@using ConstructionPlanning.WebApplication.Models.ResourceType
-@model ConstructionPlanning.WebApplication.Models.ResourceType.ResourceTypeIndexViewModel
+﻿@using ConstructionPlanning.WebApplication.Models.Customer
+@model ConstructionPlanning.WebApplication.Models.Customer.CustomerIndexViewModel
 
 @{
-    ViewData["Title"] = "Список типов ресурсов";
+    ViewData["Title"] = "Список заказчиков";
 }
 
-<h1>Список типов ресурсов</h1>
+<h1>Список заказчиков</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary btn-sm">Добавить новый тип ресурса</a>
+    <a asp-action="Create" class="btn btn-primary btn-sm">Добавить нового заказчика</a>
 </p>
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Description)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Phone)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.ResourceTypes) {
+@foreach (var item in Model.Customers) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
             <td class="float-right">
-                @Html.ActionLink("Ресурсы", "GetResourcesByResourceTypeId", "Resource", new { resourceTypeId=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Проекты", "GetProjectsByCustomerId", "Project", new { customerId =item.Id }, new { @class="btn btn-primary btn-sm" }) |
                 @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }, new { @class="btn btn-primary btn-sm" }) |
                 @Html.ActionLink("Удалить", "Delete", new { id=item.Id }, new { @class="btn btn-danger btn-sm" })
             </td>
