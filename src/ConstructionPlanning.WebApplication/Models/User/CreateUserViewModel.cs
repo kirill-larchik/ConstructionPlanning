@@ -1,4 +1,5 @@
 ﻿using ConstructionPlanning.WebApplication.Attributes;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace ConstructionPlanning.WebApplication.Models.User
@@ -24,8 +25,8 @@ namespace ConstructionPlanning.WebApplication.Models.User
         [Display(Name = "Имя")]
         [StringLength(255, MinimumLength = 1, ErrorMessage = "Заполните поле \"Имя\"")]
         public string Forename { get; set; }
-
+        
         [Display(Name = "Предоставить права администратора?")]
-        public bool IsAdmin { get; set; }
+        public bool IsAdmin { get; set; } = false;
     }
 }

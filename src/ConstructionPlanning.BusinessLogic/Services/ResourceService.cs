@@ -71,7 +71,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<ResourceDto> GetResourceById(int id)
         {
-            var resourceById = await _resourceRepository.GetById(id);
+            var resourceById = await _resourceRepository.GetById(id, x => x.Type);
             if (resourceById == null)
             {
                 throw new ArgumentNullException(nameof(resourceById), "Ресурса с таким ИД не существует.");

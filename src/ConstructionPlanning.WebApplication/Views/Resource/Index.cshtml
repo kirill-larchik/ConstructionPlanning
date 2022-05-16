@@ -8,10 +8,10 @@
 <h1>Список ресурсов</h1>
 
 <p>
-    <a asp-action="Create">Добавить новый ресурс</a>
+    <a asp-action="Create" class="btn btn-primary btn-sm">Добавить новый ресурс</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)
@@ -24,9 +24,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.AvaliableAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.UnitCost)
             </th>
             <th></th>
         </tr>
@@ -47,12 +44,9 @@
                 @Html.DisplayFor(modelItem => item.AvaliableAmount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UnitCost)
-            </td>
-            <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Подробная информация", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Подробная информация", "Details", new { id=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Удалить", "Delete", new { id=item.Id }, new { @class="btn btn-danger btn-sm" })
             </td>
         </tr>
 }

@@ -42,7 +42,6 @@ namespace ConstructionPlanning.WebApplication.Mappings
             CreateMap<SelectListModel, ProviderDto>().ReverseMap();
 
             CreateMap<SaleDto, SaleViewModel>()
-                .ForMember(x => x.ResourceName, y => y.MapFrom(src => src.Resource.Name))
                 .ForMember(x => x.ResourceName, y => y.MapFrom(src => src.Resource != null ? src.Resource.Name : Constants.NoInfoString))
                 .ForMember(x => x.UnitCost, y => y.MapFrom(src => src.Resource == null ? 0 : src.Resource.UnitCost))
                 .ReverseMap();

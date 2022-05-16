@@ -81,7 +81,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<DeliveryDto> GetDeliveryById(int id)
         {
-            var deliveryById = await _deliveryRepository.GetById(id);
+            var deliveryById = await _deliveryRepository.GetById(id, x => x.Resource, x => x.Provider);
             if (deliveryById == null)
             {
                 throw new ArgumentNullException(nameof(deliveryById), "Поставки с таким ИД не существует.");

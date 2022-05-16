@@ -26,8 +26,8 @@ namespace ConstructionPlanning.BusinessLogic.Mappings
             CreateMap<ResourcePerObject, ResourcePerObjectDto>()
                 .ForMember(x => x.TotalCost, y => y.MapFrom(src => GetUnitCostForResource(src.Resource) * src.Count))
                 .ForMember(x => x.ResourceCountOffset, y => y.MapFrom(src => GetAvaliableAmountForResource(src.Resource) - src.Count));
+            
             CreateMap<ResourcePerObjectDto, ResourcePerObject>();
-
             CreateMap<ConstructionObject, ConstructionObjectDto>().ReverseMap();
             CreateMap<Project, ProjectDto>().ReverseMap();
             CreateMap<Customer, CustomerDto>().ReverseMap();

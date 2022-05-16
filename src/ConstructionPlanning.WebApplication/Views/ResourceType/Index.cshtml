@@ -8,10 +8,10 @@
 <h1>Список типов ресурсов</h1>
 
 <p>
-    <a asp-action="Create">Добавить новый тип ресурса</a>
+    <a asp-action="Create" class="btn btn-primary btn-sm">Добавить новый тип ресурса</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)
@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Получить список ресурсов", "GetResourcesByResourceTypeId", "Resource", new { resourceTypeId=item.Id }) |
-                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+                @Html.ActionLink("Ресурсы", "GetResourcesByResourceTypeId", "Resource", new { resourceTypeId=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Удалить", "Delete", new { id=item.Id }, new { @class="btn btn-danger btn-sm" })
             </td>
         </tr>
 }

@@ -8,10 +8,10 @@
 <h1>Список ресурсов типа "@Model.ResourceTypeName"</h1>
 
 <p>
-    @Html.ActionLink("Назад.", "Index", "ResourceType", new { id = Model.ResourceTypeId })
+    @Html.ActionLink("Назад", "Index", "ResourceType", new { id = Model.ResourceTypeId }, new { @class="btn btn-secondary" })
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.Id)
@@ -22,10 +22,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.ModelForDisplayingNames.AvaliableAmount)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModelForDisplayingNames.UnitCost)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,9 +35,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AvaliableAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitCost)
             </td>
         </tr>
 }
