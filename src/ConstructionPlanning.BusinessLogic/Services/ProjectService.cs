@@ -12,17 +12,20 @@ namespace ConstructionPlanning.BusinessLogic.Services
     {
         private readonly IRepository<Project> _projectRepository;
         private readonly IRepository<Customer> _customerRepository;
+        private readonly IConstructionObjectService _constructionObjectService;
         private readonly IMapper _mapper;
         private readonly IPaginationService<Project, ProjectDto> _paginationService;
 
         /// <inheritdoc />
         public ProjectService(IRepository<Project> projectRepository,
             IRepository<Customer> customerRepository,
+            IConstructionObjectService constructionObjectService,
             IMapper mapper,
             IPaginationService<Project, ProjectDto> paginationService)
         {
             _projectRepository = projectRepository;
             _customerRepository = customerRepository;
+            _constructionObjectService = constructionObjectService;
             _mapper = mapper;
             _paginationService = paginationService;
         }
@@ -50,7 +53,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         {
             var projects = _projectRepository.GetAll().AsEnumerable();
             var mappedProjects = _mapper.Map<IEnumerable<ProjectDto>>(projects);
-            FillTotalCost(mappedProjects);
+            await FillTotalCost(mappedProjects);
 
             return mappedProjects;
         }
@@ -59,7 +62,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         public async Task<IEnumerable<ProjectDto>> GetAllPaginatedProjects(int page, int pageSize)
         {
             var projects = await _paginationService.GetItems(page, pageSize, null, x => x.Customer);
-            FillTotalCost(projects);
+            await FillTotalCost(projects);
 
             return projects;
         }
@@ -67,14 +70,14 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<ProjectDto> GetProjectById(int id)
         {
-            var projectById = await _projectRepository.GetById(id, x => x.Customer);
+            var projectById = await _projectRepository.GetById(id, x => x.Customer, x => x.ConstructionObjects);
             if (projectById == null)
             {
                 throw new ArgumentNullException(nameof(projectById), "Проекта с таким ИД не существует.");
             }
 
             var project = _mapper.Map<ProjectDto>(projectById);
-            FillTotalCost(new List<ProjectDto> { project });
+            await FillTotalCost(new List<ProjectDto> { project });
 
             return project;
         }
@@ -146,10 +149,11 @@ namespace ConstructionPlanning.BusinessLogic.Services
             }
         }
 
-        private static void FillTotalCost(IEnumerable<ProjectDto> mappedProjects)
+        private async Task FillTotalCost(IEnumerable<ProjectDto> mappedProjects)
         {
             foreach (var project in mappedProjects)
             {
+                project.ConstructionObjects = (await _constructionObjectService.GetAllConstructionObjects()).Where(x => x.ProjectId == project.Id);
                 project.TotalCost = project.ConstructionObjects?.Sum(x => x.TotalCost) ?? 0;
             }
         }

@@ -1,0 +1,53 @@
+﻿@model ConstructionPlanning.WebApplication.Models.ConstructionObject.ConstructionObjectViewModel
+
+@{
+    ViewData["Title"] = "Подробная информация о строительном объекте";
+}
+
+<h1>Подробная информация о строительном объекте</h1>
+<h4>Строительный объект</h4>
+<hr />
+<div class="col-md-8">
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ProjectName)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+    </dl>
+</div>
+
+<div class="row">
+    <div class="col">
+        <a href="@Model.ReturnUrl" class="btn btn-secondary float-left">Назад</a>
+    </div>
+</div>
+
+<div class="mt-5">
+    @await Html.PartialAsync("_ResourcesPerObject", Model)
+</div>

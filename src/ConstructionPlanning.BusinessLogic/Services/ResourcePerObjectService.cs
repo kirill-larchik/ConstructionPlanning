@@ -37,6 +37,8 @@ namespace ConstructionPlanning.BusinessLogic.Services
             var mappedResourcePerObject = _mapper.Map<ResourcePerObject>(resourcePerObjectDto);
             await _resourcePerObjectRepository.Add(mappedResourcePerObject);
             await _resourcePerObjectRepository.Save();
+
+            await UpdateAvaliableAmountForResource(resourcePerObjectDto);
         }
 
         /// <inheritdoc />
@@ -50,7 +52,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<IEnumerable<ResourcePerObjectDto>> GetAllResourcePerObjects()
         {
-            var resourcePerObjects = _resourcePerObjectRepository.GetAll().AsEnumerable();
+            var resourcePerObjects = _resourcePerObjectRepository.GetAll(x => x.Resource, x => x.ConstructionObject).AsEnumerable();
             return _mapper.Map<IEnumerable<ResourcePerObjectDto>>(resourcePerObjects);
         }
 
@@ -63,7 +65,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<ResourcePerObjectDto> GetResourcePerObjectById(int id)
         {
-            var resourcePerObjectById = await _resourcePerObjectRepository.GetById(id);
+            var resourcePerObjectById = await _resourcePerObjectRepository.GetById(id, x => x.Resource, x => x.ConstructionObject);
             if (resourcePerObjectById == null)
             {
                 throw new ArgumentNullException(nameof(resourcePerObjectById), "Ресусра для объекта с таким ИД не существует.");
@@ -85,6 +87,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             await Validate(resourcePerObjectDto, true);
 
             var resourcePerObject = _mapper.Map<ResourcePerObject>(resourcePerObjectDto);
+            await UpdateAvaliableAmountForResource(resourcePerObjectDto, true);
             await _resourcePerObjectRepository.Update(resourcePerObject);
             await _resourcePerObjectRepository.Save();
         }
@@ -92,12 +95,14 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         private async Task Validate(ResourcePerObjectDto resourcePerObjectDto, bool isUpdate = false)
         {
-            if (await _resourceRepository.GetById(resourcePerObjectDto.ResourceId) == null)
+            var resoruce = await _resourceRepository.GetById(resourcePerObjectDto.ResourceId);
+            if (resoruce == null)
             {
                 throw new ArgumentException("Ресурса с таким ИД не существует.");
             }
 
-            if (await _constructionObjectRepository.GetById(resourcePerObjectDto.ResourceId) == null)
+            await ValidateUniqueResource(resourcePerObjectDto, isUpdate);
+            if (await _constructionObjectRepository.GetById(resourcePerObjectDto.ConstructionObjectId) == null)
             {
                 throw new ArgumentException("Строительного объекта с таким ИД не существует.");
             }
@@ -106,6 +111,65 @@ namespace ConstructionPlanning.BusinessLogic.Services
             {
                 throw new ArgumentException("Количество ресурсов на объект должно быть больше нуля.");
             }
+
+            await ValidateAvaliableAmount(resourcePerObjectDto, isUpdate, resoruce);
+        }
+
+        private async Task ValidateUniqueResource(ResourcePerObjectDto resourcePerObjectDto, bool isUpdate)
+        {
+            var resourcesPerObject = _resourcePerObjectRepository.GetAll().Where(x => x.ConstructionObjectId == resourcePerObjectDto.ConstructionObjectId);
+            var resourceId = isUpdate ? (await _resourcePerObjectRepository.GetById(resourcePerObjectDto.Id)).ResourceId : -1;
+            if ((!isUpdate && resourcesPerObject.Any(x => x.ResourceId == resourcePerObjectDto.ResourceId)) ||
+                (isUpdate && resourcesPerObject.Where(x => x.ResourceId != resourceId).Any(x => x.ResourceId == resourcePerObjectDto.ResourceId)))
+            {
+                throw new ArgumentException("Ресурс для строительного объекта уже существует.");
+            }
+        }
+
+        private async Task ValidateAvaliableAmount(ResourcePerObjectDto resourcePerObjectDto, bool isUpdate, Resource resource)
+        {
+            if (isUpdate)
+            {
+                int avaliableAmount = await GetAvaliableAmountByUpdateSale(resourcePerObjectDto, resource);
+                if (avaliableAmount < 0)
+                {
+                    throw new ArgumentException($"Количество продаваемых ресурсов не должно превышать количество на складе ({Math.Abs(avaliableAmount)} ресурса(ов) не хватает).");
+                }
+            }
+            else if (resourcePerObjectDto.Count > resource.AvaliableAmount)
+            {
+                throw new ArgumentException($"Количество продаваемых ресурсов не должно превышать количество на складе ({resource.AvaliableAmount}).");
+            }
+        }
+
+        private async Task<int> GetAvaliableAmountByUpdateSale(ResourcePerObjectDto resourcePerObjectDto, Resource resource)
+        {
+            var resourcePerObject = await _resourcePerObjectRepository.GetById(resourcePerObjectDto.Id);
+            var countOffset = resourcePerObjectDto.Count - resourcePerObject.Count;
+            var avaliableAmount = resource.AvaliableAmount - countOffset;
+            return avaliableAmount;
+        }
+
+        private async Task UpdateAvaliableAmountForResource(ResourcePerObjectDto resourcePerObjectDto, bool isUpdate = false)
+        {
+            var resource = await _resourceRepository.GetById(resourcePerObjectDto.ResourceId);
+            if (isUpdate)
+            {
+                var resourcePerObject = await _resourcePerObjectRepository.GetById(resourcePerObjectDto.Id);
+                var offset = resourcePerObjectDto.Count - resourcePerObject.Count;
+                resource.AvaliableAmount -= offset;
+                if (resource.AvaliableAmount < 0)
+                {
+                    throw new ArgumentException($"Количество ресурсов на складе не должно быть меньше нуля ({Math.Abs(resource.AvaliableAmount)}) требуется.");
+                }
+            }
+            else
+            {
+                resource.AvaliableAmount -= resourcePerObjectDto.Count;
+            }
+
+            await _resourceRepository.Update(resource);
+            await _resourceRepository.Save();
         }
     }
 }

@@ -1,0 +1,55 @@
+﻿@model ConstructionPlanning.WebApplication.Models.ResourcePerObject.ResourcePerObjectViewModel
+
+@{
+    ViewData["Title"] = "Подробная информация о ресурсе для объекта";
+}
+
+<h1>Подробная информация о ресурсе для объекта</h1>
+<h4>Ресурс для объекта</h4>
+<hr />
+<div class="col-md-8">
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ConstructionObjectName)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.ConstructionObjectName)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ResourceName)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.ResourceName)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ResourceCountOffset)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.ResourceCountOffset)
+        </dd>
+    </dl>
+</div>
+
+<div class="row">
+    <div class="col">
+        <a href="@Model.ReturnUrl" class="btn btn-secondary float-left">Назад</a>
+    </div>
+</div>

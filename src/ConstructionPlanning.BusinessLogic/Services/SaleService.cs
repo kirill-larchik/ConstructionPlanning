@@ -98,10 +98,9 @@ namespace ConstructionPlanning.BusinessLogic.Services
             await Validate(saleDto, true);
 
             var sale = _mapper.Map<Sale>(saleDto);
+            await UpdateAvaliableAmountForResource(saleDto, true);
             await _saleRepository.Update(sale);
             await _saleRepository.Save();
-
-            await UpdateAvaliableAmountForResource(saleDto, true);
         }
 
         private async Task Validate(SaleDto saleDto, bool isUpdate = false)

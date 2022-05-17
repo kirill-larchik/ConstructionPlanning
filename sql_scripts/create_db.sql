@@ -34,8 +34,7 @@ CREATE TABLE [ResourcesPerObject] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [ConstructionObjectId] int,
   [ResourceId] int,
-  [Count] int NOT NULL,
-  [UsedCount] int NOT NULL
+  [Count] int NOT NULL
 )
 GO
 

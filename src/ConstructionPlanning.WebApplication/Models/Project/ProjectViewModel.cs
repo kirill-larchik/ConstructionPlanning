@@ -1,4 +1,5 @@
 ﻿using ConstructionPlanning.BusinessLogic.DTO;
+using ConstructionPlanning.WebApplication.Models.ConstructionObject;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,6 +31,8 @@ namespace ConstructionPlanning.WebApplication.Models.Project
         [Display(Name = "Заказчик")]
         public string CustomerName { get; set; }
 
-        public IEnumerable<ConstructionObjectDto> ConstructionObjects { get; set; }
+        public IEnumerable<ConstructionObjectViewModel> ConstructionObjects { get; set; }
+
+        public ConstructionObjectViewModel ConstructionObjectViewModel { get; set; }
     }
 }

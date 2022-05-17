@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions
+@model ConstructionPlanning.WebApplication.Models.ConstructionObject.ConstructionObjectViewModel
+@{
+    var returnUrl = Context.Request.GetEncodedUrl();
+}
+
+<div class="container">
+<h3>Список ресурсов</h3>
+
+<p>
+    <a asp-action="Create" asp-controller="ResourcePerObject" asp-route-constructionObjectId="@Model.Id" asp-route-returnUrl="@returnUrl" class="btn btn-primary btn-sm">Добавить</a>
+</p>
+<table class="table table-striped table-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ResourcePerObjectViewModel.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResourcePerObjectViewModel.ResourceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResourcePerObjectViewModel.TotalCost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ResourcesPerObject) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResourceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCost)
+            </td>
+            <td class="float-right">
+                @Html.ActionLink("Редактировать", "Edit", "ResourcePerObject", new { id=item.Id, returnUrl=returnUrl }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Подробная информация", "Details", "ResourcePerObject", new { id=item.Id, returnUrl=returnUrl }, new { @class="btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Удалить", "Delete", "ResourcePerObject", new { id=item.Id, returnUrl=returnUrl }, new { @class="btn btn-danger btn-sm" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

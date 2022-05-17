@@ -14,6 +14,11 @@
         public string? Name { get; set; }
 
         /// <summary>
+        /// Описание объекта.
+        /// </summary>
+        public string? Description { get; set; }
+
+        /// <summary>
         /// ИД проекта.
         /// </summary>
         public int ProjectId { get; set; }

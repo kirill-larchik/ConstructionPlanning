@@ -11,20 +11,24 @@ namespace ConstructionPlanning.BusinessLogic.Services
     public class ConstructionObjectService : IConstructionObjectService
     {
         private readonly IRepository<ConstructionObject> _constructionObjectRepository;
+        private readonly IRepository<ResourcePerObject> _resourcePerObjectRepository;
         private readonly IRepository<Project> _projectRepository;
         private readonly IMapper _mapper;
         private readonly IPaginationService<ConstructionObject, ConstructionObjectDto> _paginationService;
 
         /// <inheritdoc />
         public ConstructionObjectService(IRepository<ConstructionObject> constructionObjectRepository,
+            IRepository<ResourcePerObject> resourcePerObjectRepository,
             IRepository<Project> projectRepository,
             IMapper mapper,
             IPaginationService<ConstructionObject, ConstructionObjectDto> paginationService)
         {
             _constructionObjectRepository = constructionObjectRepository;
+            _resourcePerObjectRepository = resourcePerObjectRepository;
             _projectRepository = projectRepository;
             _mapper = mapper;
             _paginationService = paginationService;
+            _resourcePerObjectRepository = resourcePerObjectRepository;
         }
 
         /// <inheritdoc />
@@ -47,7 +51,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<IEnumerable<ConstructionObjectDto>> GetAllConstructionObjects()
         {
-            var constructionObjects = _constructionObjectRepository.GetAll().AsEnumerable();
+            var constructionObjects = _constructionObjectRepository.GetAll(x => x.Project, x => x.ResourcesPerObject).AsEnumerable();
             var mappedConstructionObjects = _mapper.Map<IEnumerable<ConstructionObjectDto>>(constructionObjects);
             FillTotalCost(mappedConstructionObjects);
 
@@ -66,7 +70,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<ConstructionObjectDto> GetConstructionObjectById(int id)
         {
-            var constructionObjectById = await _constructionObjectRepository.GetById(id);
+            var constructionObjectById = await _constructionObjectRepository.GetById(id, x => x.Project, x => x.ResourcesPerObject);
             if (constructionObjectById == null)
             {
                 throw new ArgumentNullException(nameof(constructionObjectById), "Строительного объекта с таким ИД не существует.");
@@ -105,10 +109,14 @@ namespace ConstructionPlanning.BusinessLogic.Services
 
             if (string.IsNullOrEmpty(constructionObjectDto.Name))
             {
-                throw new ArgumentException("Название поставщика не может быть пустым.");
+                throw new ArgumentException("Название объекта не может быть пустым.");
             }
 
             await ValidateNameUnique(constructionObjectDto, isUpdate);
+            if (string.IsNullOrEmpty(constructionObjectDto.Description))
+            {
+                throw new ArgumentException("Описание объекта не может быть пустым.");
+            }
         }
 
         private async Task ValidateNameUnique(ConstructionObjectDto constructionObjectDto, bool isUpdate)
@@ -122,10 +130,12 @@ namespace ConstructionPlanning.BusinessLogic.Services
             }
         }
 
-        private static void FillTotalCost(IEnumerable<ConstructionObjectDto> mappedConstructionObjects)
+        private async Task FillTotalCost(IEnumerable<ConstructionObjectDto> mappedConstructionObjects)
         {
             foreach (var constructionObject in mappedConstructionObjects)
             {
+                var resourcesPerObjectById = _resourcePerObjectRepository.GetAll(x => x.Resource).Where(x => x.ConstructionObjectId == constructionObject.Id);
+                constructionObject.ResourcesPerObject = _mapper.Map<IEnumerable<ResourcePerObjectDto>>(resourcesPerObjectById.AsEnumerable());
                 constructionObject.TotalCost = constructionObject.ResourcesPerObject?.Sum(x => x.TotalCost) ?? 0;
             }
         }

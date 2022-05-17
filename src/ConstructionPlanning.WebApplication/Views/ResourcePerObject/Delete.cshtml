@@ -1,0 +1,57 @@
+﻿@model ConstructionPlanning.WebApplication.Models.ResourcePerObject.ResourcePerObjectViewModel
+
+@{
+    ViewData["Title"] = "Удаление ресурса для объекта";
+}
+
+<h1>Удаление ресурса для строительного объекта</h1>
+<h3>Вы действительно хотите удалить ресурс для объекта?</h3>
+<h4>Ресурс для объекта</h4>
+<hr />
+<div class="col-md-8">
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ConstructionObjectName)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.ConstructionObjectName)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ResourceName)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.ResourceName)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+        <dd class = "col-sm-8 bg-light">
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+    </dl>
+    
+    <div class="row">
+        <div class="col">
+            <a href="@Model.ReturnUrl" class="btn btn-secondary float-left w-25">Назад</a>
+        </div>
+        <div class="col">
+            <form asp-action="Delete">
+                <input asp-for="ReturnUrl" hidden />
+                <input type="submit" value="Удалить" class="btn btn-danger float-right w-25" />
+            </form>
+        </div>
+    </div>
+
+</div>

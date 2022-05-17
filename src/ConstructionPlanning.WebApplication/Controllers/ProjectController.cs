@@ -3,6 +3,7 @@ using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.BusinessLogic.Services.Interfaces;
 using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Models;
+using ConstructionPlanning.WebApplication.Models.ConstructionObject;
 using ConstructionPlanning.WebApplication.Models.Project;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,7 +50,9 @@ namespace ConstructionPlanning.WebApplication.Controllers
         public async Task<ActionResult> Details(int id)
         {
             var model = _mapper.Map<ProjectViewModel>(await _projectService.GetProjectById(id));
-            model.ConstructionObjects = (await _constructionObjectService.GetAllConstructionObjects()).Where(x => x.ProjectId == id);
+            var constructionObjects = _mapper.Map<IEnumerable<ConstructionObjectViewModel>>((await _constructionObjectService.GetAllConstructionObjects())
+                .Where(x => x.ProjectId == id));
+            model.ConstructionObjects = constructionObjects;
             return View(model);
         }
 

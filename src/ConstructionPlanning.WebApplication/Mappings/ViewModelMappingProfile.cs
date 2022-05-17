@@ -2,11 +2,13 @@
 using ConstructionPlanning.BusinessLogic.DTO;
 using ConstructionPlanning.WebApplication.Data;
 using ConstructionPlanning.WebApplication.Models;
+using ConstructionPlanning.WebApplication.Models.ConstructionObject;
 using ConstructionPlanning.WebApplication.Models.Customer;
 using ConstructionPlanning.WebApplication.Models.Delivery;
 using ConstructionPlanning.WebApplication.Models.Project;
 using ConstructionPlanning.WebApplication.Models.Provider;
 using ConstructionPlanning.WebApplication.Models.Resource;
+using ConstructionPlanning.WebApplication.Models.ResourcePerObject;
 using ConstructionPlanning.WebApplication.Models.ResourceType;
 using ConstructionPlanning.WebApplication.Models.Sale;
 
@@ -60,6 +62,19 @@ namespace ConstructionPlanning.WebApplication.Mappings
             CreateMap<ProjectCreateViewModel, ProjectDto>().ReverseMap();
             CreateMap<ProjectEditViewModel, ProjectDto>().ReverseMap();
             CreateMap<SelectListModel, CustomerDto>().ReverseMap();
+
+            CreateMap<ConstructionObjectDto, ConstructionObjectViewModel>()
+                .ForMember(x => x.ProjectName, y => y.MapFrom(src => src.Project != null ? src.Project.Name : Constants.NoInfoString))
+                .ReverseMap();
+            CreateMap<ConstructionObjectCreateViewModel, ConstructionObjectDto>().ReverseMap();
+            CreateMap<ConstructionObjectEditViewModel, ConstructionObjectDto>().ReverseMap();
+
+            CreateMap<ResourcePerObjectDto, ResourcePerObjectViewModel>()
+                .ForMember(x => x.ResourceName, y => y.MapFrom(src => src.Resource != null ? src.Resource.Name : Constants.NoInfoString))
+                .ForMember(x => x.ConstructionObjectName, y => y.MapFrom(src => src.ConstructionObject != null ? src.ConstructionObject.Name : Constants.NoInfoString))
+                .ReverseMap();
+            CreateMap<ResourcePerObjectCreateViewModel, ResourcePerObjectDto>().ReverseMap();
+            CreateMap<ResourcePerObjectEditViewModel, ResourcePerObjectDto>().ReverseMap();
         }
     }
 }

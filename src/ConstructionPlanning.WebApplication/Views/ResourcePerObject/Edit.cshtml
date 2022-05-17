@@ -1,0 +1,57 @@
+﻿@model ConstructionPlanning.WebApplication.Models.ResourcePerObject.ResourcePerObjectEditViewModel
+
+@{
+    ViewData["Title"] = "Редактирование ресурса для объекта";
+}
+
+<h1>Редактирование ресурса для объекта</h1>
+
+<h4>Ресурс для объекта</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" class="form-control" hidden/>
+            <input asp-for="ConstructionObjectId" class="form-control" hidden/>
+            <input asp-for="ReturnUrl" class="form-control" hidden/>
+            <div class="form-group row">
+                <label asp-for="ConstructionObjectName" class="col-sm-4 col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="ConstructionObjectName" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ResourceId" class="col-sm-4 col-form-label"></label>
+                <div class="col-sm-8">
+                    <select asp-for="ResourceId" class="form-control" asp-items="ViewBag.Resources">
+                    </select>
+                    <div class="text-center">
+                        <span asp-validation-for="ResourceId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Count" class="col-sm-4 col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Count" class="form-control" />
+                    <div class="justify-content-center text-center m-auto">
+                        <span asp-validation-for="Count" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <a href="@Model.ReturnUrl" class="btn btn-secondary float-left">Назад</a>
+                </div>
+                <div class="col">
+                    <input type="submit" value="Редактировать" class="btn btn-primary float-right" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
