@@ -1,6 +1,7 @@
 ﻿using ConstructionPlanning.DataAccess.DbContext;
 using ConstructionPlanning.DataAccess.Objects;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -38,13 +39,19 @@ namespace ConstructionPlanning.DataAccess.Repositories
         /// <inheritdoc />
         public IQueryable<T> GetAll(params Expression<Func<T, object>>[] includes)
         {
-            var dbSet = _context.Set<T>().AsNoTracking();
-            foreach (var include in includes)
+            var dbSet = _context.Set<T>();
+            if (includes.Length != 0)
             {
-                dbSet = dbSet.Include(include);
+                IIncludableQueryable<T, object> dbSetWithInclude = dbSet.Include(includes.First());
+                foreach (var include in includes.Skip(1))
+                {
+                    dbSetWithInclude = dbSetWithInclude.Include(include);
+                }
+
+                return dbSetWithInclude.AsNoTracking();
             }
 
-            return dbSet;
+            return dbSet.AsNoTracking();
         }
 
         /// <inheritdoc />
@@ -63,6 +70,12 @@ namespace ConstructionPlanning.DataAccess.Repositories
         public async Task Update(T entity)
         {
             _context.Update(entity);
+        }
+
+        /// <inheritdoc />
+        public void ClearTracker()
+        {
+            _context.ChangeTracker.Clear();
         }
     }
 }

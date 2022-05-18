@@ -11,24 +11,23 @@ namespace ConstructionPlanning.BusinessLogic.Services
     public class ConstructionObjectService : IConstructionObjectService
     {
         private readonly IRepository<ConstructionObject> _constructionObjectRepository;
-        private readonly IRepository<ResourcePerObject> _resourcePerObjectRepository;
+        private readonly IResourcePerObjectService _resourcePerObjectService;
         private readonly IRepository<Project> _projectRepository;
         private readonly IMapper _mapper;
         private readonly IPaginationService<ConstructionObject, ConstructionObjectDto> _paginationService;
 
         /// <inheritdoc />
         public ConstructionObjectService(IRepository<ConstructionObject> constructionObjectRepository,
-            IRepository<ResourcePerObject> resourcePerObjectRepository,
+            IResourcePerObjectService resourcePerObjectService,
             IRepository<Project> projectRepository,
             IMapper mapper,
             IPaginationService<ConstructionObject, ConstructionObjectDto> paginationService)
         {
             _constructionObjectRepository = constructionObjectRepository;
-            _resourcePerObjectRepository = resourcePerObjectRepository;
+            _resourcePerObjectService = resourcePerObjectService;
             _projectRepository = projectRepository;
             _mapper = mapper;
             _paginationService = paginationService;
-            _resourcePerObjectRepository = resourcePerObjectRepository;
         }
 
         /// <inheritdoc />
@@ -44,6 +43,12 @@ namespace ConstructionPlanning.BusinessLogic.Services
         public async Task DeleteConstructionObjectById(int id)
         {
             await GetConstructionObjectById(id);
+            var resourcesPerObject = (await _resourcePerObjectService.GetAllResourcePerObjects()).Where(x => x.ConstructionObjectId == id);
+            foreach (var resourcePerObject in resourcesPerObject)
+            {
+                await _resourcePerObjectService.DeleteResourcePerObjectById(resourcePerObject.Id);
+            }
+
             await _constructionObjectRepository.Delete(id);
             await _constructionObjectRepository.Save();
         }
@@ -53,7 +58,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         {
             var constructionObjects = _constructionObjectRepository.GetAll(x => x.Project, x => x.ResourcesPerObject).AsEnumerable();
             var mappedConstructionObjects = _mapper.Map<IEnumerable<ConstructionObjectDto>>(constructionObjects);
-            FillTotalCost(mappedConstructionObjects);
+            await FillTotalCost(mappedConstructionObjects);
 
             return mappedConstructionObjects;
         }
@@ -62,7 +67,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         public async Task<IEnumerable<ConstructionObjectDto>> GetAllPaginatedConstructionObjects(int page, int pageSize)
         {
             var constructionObjects =  await _paginationService.GetItems(page, pageSize, null);
-            FillTotalCost(constructionObjects);
+            await FillTotalCost(constructionObjects);
 
             return constructionObjects;
         }
@@ -77,7 +82,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             }
 
             var constructionObject = _mapper.Map<ConstructionObjectDto>(constructionObjectById);
-            FillTotalCost(new List<ConstructionObjectDto> { constructionObject });
+            await FillTotalCost(new List<ConstructionObjectDto> { constructionObject });
 
             return constructionObject;
         }
@@ -132,10 +137,10 @@ namespace ConstructionPlanning.BusinessLogic.Services
 
         private async Task FillTotalCost(IEnumerable<ConstructionObjectDto> mappedConstructionObjects)
         {
+            var resourcesPerObject = await _resourcePerObjectService.GetAllResourcePerObjects();
             foreach (var constructionObject in mappedConstructionObjects)
             {
-                var resourcesPerObjectById = _resourcePerObjectRepository.GetAll(x => x.Resource).Where(x => x.ConstructionObjectId == constructionObject.Id);
-                constructionObject.ResourcesPerObject = _mapper.Map<IEnumerable<ResourcePerObjectDto>>(resourcesPerObjectById.AsEnumerable());
+                constructionObject.ResourcesPerObject = resourcesPerObject.Where(x => x.ConstructionObjectId == constructionObject.Id);
                 constructionObject.TotalCost = constructionObject.ResourcesPerObject?.Sum(x => x.TotalCost) ?? 0;
             }
         }

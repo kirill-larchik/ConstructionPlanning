@@ -44,7 +44,8 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task DeleteResourcePerObjectById(int id)
         {
-            await GetResourcePerObjectById(id);
+            var resourcePerObject = await GetResourcePerObjectById(id);
+            await ReturnUsedCountToResource(resourcePerObject);
             await _resourcePerObjectRepository.Delete(id);
             await _resourcePerObjectRepository.Save();
         }
@@ -171,5 +172,15 @@ namespace ConstructionPlanning.BusinessLogic.Services
             await _resourceRepository.Update(resource);
             await _resourceRepository.Save();
         }
+
+        private async Task ReturnUsedCountToResource(ResourcePerObjectDto resourcePerObject)
+        {
+            var resource = await _resourceRepository.GetById(resourcePerObject.ResourceId);
+            resource.AvaliableAmount += resourcePerObject.Count;
+            await _resourceRepository.Update(resource);
+            await _resourceRepository.Save();
+            _resourceRepository.ClearTracker();
+        }
+
     }
 }

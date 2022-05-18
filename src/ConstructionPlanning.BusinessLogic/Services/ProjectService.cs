@@ -44,6 +44,12 @@ namespace ConstructionPlanning.BusinessLogic.Services
         public async Task DeleteProjectById(int id)
         {
             await GetProjectById(id);
+            var constructionObjects = (await _constructionObjectService.GetAllConstructionObjects()).Where(x => x.ProjectId == id);
+            foreach (var constructionObject in constructionObjects)
+            {
+                await _constructionObjectService.DeleteConstructionObjectById(constructionObject.Id);
+            }
+
             await _projectRepository.Delete(id);
             await _projectRepository.Save();
         }
@@ -151,9 +157,10 @@ namespace ConstructionPlanning.BusinessLogic.Services
 
         private async Task FillTotalCost(IEnumerable<ProjectDto> mappedProjects)
         {
+            var constructionObjects = await _constructionObjectService.GetAllConstructionObjects();
             foreach (var project in mappedProjects)
             {
-                project.ConstructionObjects = (await _constructionObjectService.GetAllConstructionObjects()).Where(x => x.ProjectId == project.Id);
+                project.ConstructionObjects = constructionObjects.Where(x => x.ProjectId == project.Id);
                 project.TotalCost = project.ConstructionObjects?.Sum(x => x.TotalCost) ?? 0;
             }
         }

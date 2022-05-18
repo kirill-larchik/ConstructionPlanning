@@ -43,5 +43,10 @@ namespace ConstructionPlanning.DataAccess.Repositories
         /// Сохранение изменений.
         /// </summary>
         Task Save();
+
+        /// <summary>
+        /// Отменяет трекинг.
+        /// </summary>
+        void ClearTracker();
     }
 }

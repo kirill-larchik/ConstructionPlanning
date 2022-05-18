@@ -10,6 +10,7 @@ namespace ConstructionPlanning.WebApplication.Models.ResourcePerObject
         public int ConstructionObjectId { get; set; }
 
         [TranslatedRequared]
+        [Display(Name = "Ресурс")]
         public int ResourceId { get; set; }
 
         [TranslatedRequared]
