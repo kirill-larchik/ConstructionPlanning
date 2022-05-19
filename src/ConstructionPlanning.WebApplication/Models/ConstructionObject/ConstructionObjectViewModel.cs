@@ -6,7 +6,7 @@ namespace ConstructionPlanning.WebApplication.Models.ConstructionObject
 {
     public class ConstructionObjectViewModel
     {
-        [Display(Name = "Номер строительного объекта")]
+        [Display(Name = "Номер объекта")]
         public int Id { get; set; }
 
         [Display(Name = "Наименование")]

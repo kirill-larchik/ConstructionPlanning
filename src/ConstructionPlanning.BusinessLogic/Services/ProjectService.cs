@@ -57,7 +57,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
         /// <inheritdoc />
         public async Task<IEnumerable<ProjectDto>> GetAllProjects()
         {
-            var projects = _projectRepository.GetAll().AsEnumerable();
+            var projects = _projectRepository.GetAll(x => x.Customer).AsEnumerable();
             var mappedProjects = _mapper.Map<IEnumerable<ProjectDto>>(projects);
             await FillTotalCost(mappedProjects);
 

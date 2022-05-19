@@ -13,14 +13,14 @@ namespace ConstructionPlanning.WebApplication.Models.ResourcePerObject
         [Display(Name = "Ресурс")]
         public string ResourceName { get; set; }
 
-        [Display(Name = "Необходимое количество ресурсов")]
+        [Display(Name = "Выделенное количество ресурсов")]
         public int Count { get; set; }
 
         [Display(Name = "Итоговые затраты")]
         public int TotalCost { get; set; }
 
-        [Display(Name = "Разница между ресурасми")]
-        public int ResourceCountOffset { get; set; }
+        [Display(Name = "Количество ресурсов на слкаде")]
+        public int AvaliableResourceCount { get; set; }
 
         public string ReturnUrl { get; set; }
     }

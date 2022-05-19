@@ -29,6 +29,7 @@ namespace ConstructionPlanning.BusinessLogic.DI
         {
             services.AddTransient<IExcelExportService<DeliveryDto>, DeliveryExportService>();
             services.AddTransient<IExcelExportService<SaleDto>, SaleExportService>();
+            services.AddTransient<IExcelExportService<ProjectDto>, ProjectExportService>();
         }
 
         private static void AddServices(IServiceCollection services)

@@ -22,15 +22,18 @@ namespace ConstructionPlanning.WebApplication.Controllers
         private readonly IConstructionObjectService _constructionObjectService;
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
+        private readonly IExcelExportService<ProjectDto> _excelExportService;
 
         public ProjectController(IProjectService projectService,
             ICustomerService customerService,
+            IExcelExportService<ProjectDto> excelExportService,
             IConstructionObjectService constructionObjectService,
             IMapper mapper)
         {
             _projectService = projectService;
             _customerService = customerService;
             _constructionObjectService = constructionObjectService;
+            _excelExportService = excelExportService;
             _mapper = mapper;
         }
 
@@ -147,6 +150,13 @@ namespace ConstructionPlanning.WebApplication.Controllers
         {
             await _projectService.DeleteProjectById(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> Export()
+        {
+            const string fileName = "projects.xlsx";
+            var bytes = _excelExportService.Export(await _projectService.GetAllProjects());
+            return File(bytes, "application/force-download", fileName);
         }
 
         private async Task InitCustomerSelectList()

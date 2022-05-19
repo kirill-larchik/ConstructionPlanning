@@ -31,7 +31,7 @@
         /// <summary>
         /// Разница между ресурсами на складе и необходимым количеством ресурсов.
         /// </summary>
-        public int ResourceCountOffset { get; set; }
+        public int AvaliableResourceCount { get; set; }
 
         /// <summary>
         /// Строительный объект.

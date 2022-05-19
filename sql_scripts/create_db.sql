@@ -81,7 +81,7 @@ CREATE TABLE [Sales] (
 )
 GO
 
-ALTER TABLE [Projects] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Customers] ([Id])
+ALTER TABLE [Projects] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Customers] ([Id]) ON DELETE SET NULL
 GO
 
 ALTER TABLE [ConstructionObjects] ADD FOREIGN KEY ([ProjectId]) REFERENCES [Projects] ([Id])
@@ -90,7 +90,7 @@ GO
 ALTER TABLE [ResourcesPerObject] ADD FOREIGN KEY ([ConstructionObjectId]) REFERENCES [ConstructionObjects] ([Id])
 GO
 
-ALTER TABLE [ResourcesPerObject] ADD FOREIGN KEY ([ResourceId]) REFERENCES [Resources] ([Id])
+ALTER TABLE [ResourcesPerObject] ADD FOREIGN KEY ([ResourceId]) REFERENCES [Resources] ([Id]) ON DELETE SET NULL
 GO
 
 ALTER TABLE [Resources] ADD FOREIGN KEY ([TypeId]) REFERENCES [ResourceTypes] ([Id]) ON DELETE CASCADE
