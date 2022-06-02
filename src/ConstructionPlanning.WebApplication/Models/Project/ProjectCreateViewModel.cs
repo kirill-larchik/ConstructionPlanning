@@ -18,7 +18,7 @@ namespace ConstructionPlanning.WebApplication.Models.Project
 
         [TranslatedRequared]
         [Display(Name = "Количество выделенных средств")]
-        [Range(0, int.MaxValue, ErrorMessage = "выделенных средств должно быть больше нуля.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Количество выделенных средств должно быть больше нуля.")]
         public int AllocatedAmount { get; set; }
 
         [TranslatedRequared]
