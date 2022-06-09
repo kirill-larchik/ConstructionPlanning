@@ -151,7 +151,7 @@ namespace ConstructionPlanning.BusinessLogic.Services
             if ((!isUpdate && projects.Any(x => x.Name == projectDto.Name)) ||
                 (isUpdate && projects.Where(x => x.Name != constractionObjectName).Any(x => x.Name == projectDto.Name)))
             {
-                throw new ArgumentException("Проект с таким названием уже существует для проекта.");
+                throw new ArgumentException("Проект с таким названием уже существует.");
             }
         }
 
